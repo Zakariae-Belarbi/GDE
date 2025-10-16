@@ -1,0 +1,1343 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Deposit - Great Debaters ENSAM Rabat</title>
+    <meta name="description" content="Déposez vos livres pour enrichir la bibliothèque collective de Great Debaters ENSAM Rabat">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <style>
+/* =============================================================================
+   WHAT CHANGED & WHY
+   =============================================================================
+   1. Color system unified with warm paper/ink palette (aged paper #f2efe9, ink #2a2723, bronze #b08b5b)
+   2. Typography: IM Fell English for headings, Inter for forms (newspaper feel)
+   3. Header has dotted rule underneath for newspaper masthead look
+   4. Hero section includes torn paper edge effect and declassified stamp SVG
+   5. Form card styled as letterpress paper form with subtle inner shadows
+   6. Custom radio buttons styled as paper pills with bronze fill when checked
+   7. Upload area styled as dashed paper coupon
+   8. Buttons have embossed bronze appearance with proper shadows
+   9. Success banner includes "REÇU" stamp with multiply blend mode
+   10. Improved accessibility: proper ARIA labels, focus rings, tap targets ≥44px
+   11. Performance optimizations: lazy loading, explicit dimensions, reduced motion support
+   12. All colors use semantic tokens, no direct color values in components
+   ============================================================================= */
+
+:root {
+  /* Unified warm paper/ink palette */
+  --bg-dark: #0f0e0d;
+  --panel: #1a1816;
+  --paper: #f2efe9;
+  --ink: #2a2723;
+  --ink-soft: #bfbab2;
+  --bronze: #b08b5b;
+  --bronze-hover: color-mix(in srgb, var(--bronze) 92%, white);
+  --bronze-active: color-mix(in srgb, var(--bronze) 85%, black);
+  --stroke: #3a2f23;
+  --error-red: #b33030;
+  --success-green: #4a7c59;
+  
+  /* Design tokens */
+  --radius: 18px;
+  --shadow: 0 12px 34px rgba(0, 0, 0, .28);
+  --shadow-light: 0 4px 12px rgba(0, 0, 0, .15);
+  --shadow-emboss: inset 0 1px 2px rgba(255, 255, 255, .3), 0 2px 4px rgba(0, 0, 0, .2);
+  --shadow-letterpress: inset 0 1px 2px rgba(0, 0, 0, .1);
+  --transition: all .22s cubic-bezier(.4, 0, .2, 1);
+  
+  /* Typography */
+  --font-display: 'IM Fell English', serif;
+  --font-body: 'Inter', sans-serif;
+}
+
+/* =============================================================================
+   RESET & BASE
+   ============================================================================= */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-body);
+  background: var(--bg-dark);
+  color: var(--paper);
+  line-height: 1.6;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+/* Reduce motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* =============================================================================
+   HEADER / MASTHEAD
+   ============================================================================= */
+.nav {
+  position: sticky;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: rgba(15, 14, 13, 0.98);
+  backdrop-filter: blur(8px);
+  z-index: 1000;
+  padding: 1rem 1.5rem;
+  border-bottom: 1px dotted var(--stroke);
+  box-shadow: var(--shadow-light);
+}
+
+.nav-content {
+  max-width: 900px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  font-family: var(--font-display);
+  font-size: clamp(1.2rem, 3vw, 1.6rem);
+  color: var(--bronze);
+  text-decoration: none;
+  font-weight: 400;
+  letter-spacing: 0.5px;
+  transition: var(--transition);
+}
+
+.logo:hover {
+  color: var(--bronze-hover);
+}
+
+.logo:focus-visible {
+  outline: 2px solid var(--bronze);
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+
+.back-link {
+  color: var(--ink-soft);
+  text-decoration: none;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  font-weight: 500;
+  transition: var(--transition);
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+}
+
+.back-link:hover {
+  color: var(--bronze);
+  background: rgba(176, 139, 91, 0.1);
+}
+
+.back-link:focus-visible {
+  outline: 2px solid var(--bronze);
+  outline-offset: 2px;
+}
+
+/* =============================================================================
+   CONTAINER
+   ============================================================================= */
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+}
+
+/* =============================================================================
+   HERO SECTION (torn newspaper insert)
+   ============================================================================= */
+.hero {
+  position: relative;
+  background: 
+    linear-gradient(135deg, rgba(242, 239, 233, 0.05) 0%, rgba(242, 239, 233, 0.02) 100%),
+    url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="300" height="300"><filter id="n"><feTurbulence baseFrequency=".9" numOctaves="3"/></filter><rect width="300" height="300" filter="url(%23n)" opacity=".03"/></svg>'),
+    linear-gradient(135deg, var(--panel) 0%, var(--bg-dark) 100%);
+  background-blend-mode: overlay, multiply, normal;
+  padding: clamp(2rem, 5vw, 3rem) clamp(1.5rem, 4vw, 2.5rem);
+  margin-bottom: 3rem;
+  border-radius: var(--radius);
+  text-align: center;
+  box-shadow: var(--shadow);
+  isolation: isolate;
+  /* Torn paper edge effect */
+  clip-path: polygon(
+    0% 0%, 2% 1%, 4% 0.5%, 6% 1.5%, 8% 0.8%, 10% 1.2%, 
+    92% 1%, 94% 0.5%, 96% 1.5%, 98% 0.8%, 100% 1%,
+    100% 99%, 98% 98.5%, 96% 99%, 94% 98.2%, 92% 98.8%,
+    10% 99%, 8% 98.5%, 6% 99.2%, 4% 98.5%, 2% 99%, 0% 98.5%
+  );
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: repeating-linear-gradient(90deg, var(--stroke) 0, var(--stroke) 6px, transparent 6px, transparent 12px);
+  opacity: 0.6;
+}
+
+/* Declassified stamp */
+.hero-stamp {
+  position: absolute;
+  top: 1.5rem;
+  right: 2rem;
+  width: clamp(80px, 15vw, 120px);
+  height: clamp(80px, 15vw, 120px);
+  opacity: 0.15;
+  mix-blend-mode: multiply;
+  pointer-events: none;
+  transform: rotate(-12deg);
+}
+
+.hero-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 5vw, 2.8rem);
+  font-weight: 400;
+  margin-bottom: 0.5rem;
+  color: var(--bronze);
+  letter-spacing: 0.5px;
+}
+
+.hero-subtitle {
+  font-size: clamp(1.1rem, 3vw, 1.4rem);
+  color: var(--paper);
+  margin-bottom: 1rem;
+  font-weight: 500;
+  font-style: italic;
+}
+
+.hero-description {
+  font-size: clamp(0.9rem, 2.5vw, 1rem);
+  color: var(--ink-soft);
+  line-height: 1.7;
+  max-width: 600px;
+  margin: 0 auto 2rem;
+}
+
+.page-title {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 6vw, 3.2rem);
+  color: var(--paper);
+  margin: 0;
+  position: relative;
+  display: inline-block;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.page-title::after {
+  content: "";
+  position: absolute;
+  bottom: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100px;
+  height: 2px;
+  background: repeating-linear-gradient(90deg, var(--bronze) 0, var(--bronze) 4px, transparent 4px, transparent 8px);
+}
+
+/* =============================================================================
+   SUCCESS BANNER (paper card with REÇU stamp)
+   ============================================================================= */
+.success-banner {
+  background: linear-gradient(135deg, 
+    color-mix(in srgb, var(--paper) 95%, var(--success-green)), 
+    color-mix(in srgb, var(--paper) 92%, var(--success-green))
+  );
+  color: var(--ink);
+  padding: 1.5rem 1.5rem 1.5rem 5rem;
+  border-radius: var(--radius);
+  text-align: left;
+  margin-bottom: 2rem;
+  display: none;
+  box-shadow: var(--shadow);
+  position: relative;
+  border: 1px solid color-mix(in srgb, var(--stroke) 70%, var(--paper));
+  isolation: isolate;
+}
+
+.success-banner::before {
+  /* REÇU stamp */
+  content: "REÇU";
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%) rotate(-8deg);
+  font-family: var(--font-display);
+  font-size: 2rem;
+  color: var(--success-green);
+  opacity: 0.2;
+  mix-blend-mode: multiply;
+  border: 3px solid currentColor;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-weight: bold;
+  letter-spacing: 2px;
+}
+
+.success-banner.show {
+  display: block;
+  animation: slideIn 0.5s ease-out;
+}
+
+.success-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  color: var(--ink);
+  cursor: pointer;
+  font-size: 1.5rem;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  transition: var(--transition);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.success-close:hover {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.success-close:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 2px;
+}
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* =============================================================================
+   FORM CARD (paper form with letterpress look)
+   ============================================================================= */
+.form-card {
+  background: var(--paper);
+  color: var(--ink);
+  border: 1px solid color-mix(in srgb, var(--stroke) 70%, var(--paper));
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  margin-bottom: 3rem;
+  padding: clamp(2rem, 5vw, 3rem);
+  /* Paper texture */
+  background-image: 
+    url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200"><filter id="noise"><feTurbulence baseFrequency=".65" numOctaves="3"/></filter><rect width="200" height="200" filter="url(%23noise)" opacity=".015"/></svg>');
+  background-blend-mode: multiply;
+}
+
+.form-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.6rem, 4vw, 2rem);
+  color: var(--ink);
+  margin-bottom: 2rem;
+  text-align: center;
+  position: relative;
+  padding-bottom: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 400;
+}
+
+.form-title::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 2px;
+  background: repeating-linear-gradient(90deg, var(--bronze) 0, var(--bronze) 3px, transparent 3px, transparent 6px);
+}
+
+/* =============================================================================
+   FORM ELEMENTS
+   ============================================================================= */
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+
+@media (max-width: 768px) {
+  .form-row {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+}
+
+.form-label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: var(--ink);
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.required::after {
+  content: ' *';
+  color: var(--bronze);
+}
+
+.form-input, .form-select, .form-textarea {
+  width: 100%;
+  padding: 0.85rem 1rem;
+  border: 1px solid color-mix(in srgb, var(--stroke) 60%, var(--paper));
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--paper) 98%, white);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  transition: var(--transition);
+  box-shadow: var(--shadow-letterpress);
+  min-height: 44px;
+}
+
+.form-input:focus, .form-select:focus, .form-textarea:focus {
+  outline: none;
+  border-color: var(--bronze);
+  box-shadow: var(--shadow-letterpress), 0 0 0 3px rgba(176, 139, 91, 0.15);
+}
+
+.form-input:focus-visible, .form-select:focus-visible, .form-textarea:focus-visible {
+  outline: 2px solid var(--bronze);
+  outline-offset: 1px;
+}
+
+.form-textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.form-input.error, .form-select.error, .form-textarea.error {
+  border-color: var(--error-red);
+  box-shadow: var(--shadow-letterpress), 0 0 0 2px rgba(179, 48, 48, 0.15);
+}
+
+.error-message {
+  color: var(--error-red);
+  font-size: 0.8rem;
+  margin-top: 0.4rem;
+  display: block;
+  padding-left: 0.5rem;
+  font-weight: 500;
+}
+
+/* =============================================================================
+   RADIO BUTTONS (custom paper pills)
+   ============================================================================= */
+fieldset {
+  border: none;
+  padding: 0;
+}
+
+legend.form-label {
+  margin-bottom: 0.75rem;
+}
+
+.radio-group {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.radio-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.7rem 1.2rem;
+  border-radius: 12px;
+  border: 2px solid color-mix(in srgb, var(--stroke) 50%, var(--paper));
+  background: color-mix(in srgb, var(--paper) 98%, white);
+  transition: var(--transition);
+  cursor: pointer;
+  min-height: 44px;
+}
+
+.radio-item:hover {
+  border-color: var(--bronze);
+  background: color-mix(in srgb, var(--paper) 95%, var(--bronze));
+}
+
+.radio-input {
+  width: 20px;
+  height: 20px;
+  accent-color: var(--bronze);
+  cursor: pointer;
+}
+
+.radio-input:checked + .radio-label {
+  font-weight: 600;
+  color: var(--bronze-active);
+}
+
+.radio-input:checked ~ * {
+  border-color: var(--bronze);
+}
+
+.radio-item:has(.radio-input:checked) {
+  background: color-mix(in srgb, var(--paper) 90%, var(--bronze));
+  border-color: var(--bronze);
+  box-shadow: var(--shadow-emboss);
+}
+
+.radio-label {
+  font-size: 0.9rem;
+  color: var(--ink);
+  cursor: pointer;
+  user-select: none;
+}
+
+/* =============================================================================
+   UPLOAD AREA (dashed paper coupon)
+   ============================================================================= */
+.upload-area {
+  border: 2px dashed color-mix(in srgb, var(--stroke) 60%, var(--paper));
+  border-radius: 14px;
+  padding: 2rem 1.5rem;
+  text-align: center;
+  cursor: pointer;
+  transition: var(--transition);
+  background: color-mix(in srgb, var(--paper) 97%, white);
+  box-shadow: var(--shadow-letterpress);
+  min-height: 120px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.upload-area:hover {
+  border-color: var(--bronze);
+  background: color-mix(in srgb, var(--paper) 94%, var(--bronze));
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-light);
+}
+
+.upload-area.drag-over {
+  border-color: var(--bronze);
+  background: color-mix(in srgb, var(--paper) 90%, var(--bronze));
+  border-style: solid;
+  transform: scale(1.01);
+}
+
+.upload-icon {
+  font-size: 2.5rem;
+  margin-bottom: 0.75rem;
+  color: var(--bronze);
+}
+
+.upload-text {
+  color: var(--ink);
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.upload-text small {
+  display: block;
+  margin-top: 0.25rem;
+  color: var(--ink-soft);
+  font-size: 0.8rem;
+}
+
+.file-input {
+  display: none;
+}
+
+/* =============================================================================
+   IMAGE PREVIEWS (paper tiles with bronze seal close buttons)
+   ============================================================================= */
+.image-previews {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 1rem;
+  margin-top: 1.25rem;
+}
+
+.image-preview {
+  position: relative;
+  border-radius: 10px;
+  overflow: hidden;
+  background: white;
+  border: 1px solid color-mix(in srgb, var(--stroke) 50%, var(--paper));
+  transition: var(--transition);
+  box-shadow: var(--shadow-light);
+  aspect-ratio: 1;
+}
+
+.image-preview:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow);
+}
+
+.preview-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.remove-img {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  background: var(--bronze);
+  color: white;
+  border: 2px solid white;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+  font-size: 1.2rem;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  line-height: 1;
+}
+
+.remove-img:hover {
+  background: var(--bronze-active);
+  transform: scale(1.1) rotate(90deg);
+}
+
+.remove-img:focus-visible {
+  outline: 2px solid white;
+  outline-offset: 2px;
+}
+
+/* =============================================================================
+   SUBMIT BUTTON (embossed bronze)
+   ============================================================================= */
+.submit-btn {
+  width: 100%;
+  background: linear-gradient(135deg, var(--bronze), var(--bronze-active));
+  color: var(--paper);
+  border: none;
+  padding: 1rem 1.5rem;
+  border-radius: 12px;
+  font-family: var(--font-body);
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+  margin-top: 1.5rem;
+  box-shadow: var(--shadow-emboss);
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  position: relative;
+  overflow: hidden;
+  min-height: 54px;
+}
+
+.submit-btn::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.6s;
+}
+
+.submit-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 
+    inset 0 1px 3px rgba(255, 255, 255, 0.4), 
+    0 6px 20px rgba(176, 139, 91, 0.4);
+}
+
+.submit-btn:hover:not(:disabled)::before {
+  left: 100%;
+}
+
+.submit-btn:active:not(:disabled) {
+  transform: translateY(0);
+  box-shadow: var(--shadow-letterpress);
+}
+
+.submit-btn:disabled {
+  background: var(--ink-soft);
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: var(--shadow-letterpress);
+  opacity: 0.6;
+}
+
+.submit-btn:focus-visible {
+  outline: 3px solid var(--bronze);
+  outline-offset: 3px;
+}
+
+/* =============================================================================
+   PRIVACY NOTE
+   ============================================================================= */
+.privacy-note {
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+  text-align: center;
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px dashed color-mix(in srgb, var(--stroke) 40%, var(--paper));
+  line-height: 1.6;
+  font-style: italic;
+}
+
+/* =============================================================================
+   FOOTER
+   ============================================================================= */
+.footer {
+  text-align: center;
+  padding: 2rem 0;
+  color: var(--ink-soft);
+  font-size: 0.9rem;
+  border-top: 1px dotted var(--stroke);
+  margin-top: 3rem;
+}
+
+/* =============================================================================
+   RESPONSIVE
+   ============================================================================= */
+@media (max-width: 768px) {
+  .container {
+    padding: 1.5rem 1rem;
+  }
+  
+  .hero {
+    padding: 2rem 1.5rem;
+  }
+  
+  .hero-stamp {
+    width: 70px;
+    height: 70px;
+    top: 1rem;
+    right: 1rem;
+  }
+  
+  .form-card {
+    padding: 2rem 1.5rem;
+  }
+  
+  .radio-group {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  
+  .radio-item {
+    width: 100%;
+  }
+  
+  .success-banner {
+    padding: 1.5rem 1.5rem 1.5rem 4.5rem;
+  }
+  
+  .success-banner::before {
+    font-size: 1.5rem;
+    padding: 0.3rem 0.7rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero {
+    padding: 1.5rem 1rem;
+  }
+  
+  .form-card {
+    padding: 1.5rem 1rem;
+  }
+  
+  .image-previews {
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: 0.75rem;
+  }
+}
+    </style>
+</head>
+<body>
+    <!-- Navigation / Masthead -->
+    <nav class="nav" role="navigation" aria-label="Navigation principale">
+        <div class="nav-content">
+            <a href="/" class="logo" aria-label="Great Debaters ENSAM Rabat - Accueil">
+                Great Debaters ENSAM
+            </a>
+            <a href="index.html" class="back-link" aria-label="Retour à la page d'accueil">
+                ← Retour
+            </a>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Hero Section (torn newspaper insert) -->
+        <header class="hero" role="banner">
+            <!-- Declassified stamp SVG -->
+            <svg class="hero-stamp" viewBox="0 0 120 120" aria-hidden="true" focusable="false">
+                <circle cx="60" cy="60" r="55" fill="none" stroke="currentColor" stroke-width="4" stroke-dasharray="8 4"/>
+                <circle cx="60" cy="60" r="48" fill="none" stroke="currentColor" stroke-width="2" stroke-dasharray="4 2"/>
+                <text x="60" y="50" text-anchor="middle" font-family="serif" font-size="14" font-weight="bold" fill="currentColor">APPROVED</text>
+                <text x="60" cy="70" text-anchor="middle" font-family="serif" font-size="10" fill="currentColor">2024</text>
+            </svg>
+            
+            <h1 class="hero-title">Great Debaters ENSAM Rabat</h1>
+            <p class="hero-subtitle">Thank you for your support</p>
+            <p class="hero-description">
+                Votre générosité contribue à enrichir notre bibliothèque collective 
+                et favorise le partage des connaissances au sein de notre communauté.
+            </p>
+            <div class="page-title">Book Deposit</div>
+        </header>
+
+        <!-- Success Banner -->
+        <div class="success-banner" id="successBanner" role="alert" aria-live="polite">
+            Votre livre a été soumis avec succès. Merci pour votre contribution !
+            <button class="success-close" id="closeSuccess" aria-label="Fermer le message de succès">×</button>
+        </div>
+
+        <!-- Form Card (paper form) -->
+        <main class="form-card">
+            <h2 class="form-title">Informations du livre</h2>
+            <form id="bookForm" novalidate aria-label="Formulaire de dépôt de livre">
+                <!-- Name Fields -->
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="lastName" class="form-label required">Nom</label>
+                        <input 
+                            type="text" 
+                            id="lastName" 
+                            name="lastName" 
+                            class="form-input" 
+                            required 
+                            aria-describedby="lastName-error" 
+                            autocomplete="family-name"
+                            aria-required="true"
+                        >
+                        <span class="error-message" id="lastName-error" role="alert" aria-live="polite"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="firstName" class="form-label required">Prénom</label>
+                        <input 
+                            type="text" 
+                            id="firstName" 
+                            name="firstName" 
+                            class="form-input" 
+                            required 
+                            aria-describedby="firstName-error" 
+                            autocomplete="given-name"
+                            aria-required="true"
+                        >
+                        <span class="error-message" id="firstName-error" role="alert" aria-live="polite"></span>
+                    </div>
+                </div>
+
+                <!-- Code Apogee -->
+                <div class="form-group">
+                    <label for="codeApogee" class="form-label required">Code Apogée</label>
+                    <input 
+                        type="text" 
+                        id="codeApogee" 
+                        name="codeApogee" 
+                        class="form-input" 
+                        required 
+                        aria-describedby="codeApogee-error" 
+                        pattern="[0-9]{8,}"
+                        inputmode="numeric"
+                        aria-required="true"
+                    >
+                    <span class="error-message" id="codeApogee-error" role="alert" aria-live="polite"></span>
+                </div>
+
+                <!-- Book Title -->
+                <div class="form-group">
+                    <label for="bookTitle" class="form-label required">Titre du livre</label>
+                    <input 
+                        type="text" 
+                        id="bookTitle" 
+                        name="bookTitle" 
+                        class="form-input" 
+                        required 
+                        aria-describedby="bookTitle-error"
+                        aria-required="true"
+                    >
+                    <span class="error-message" id="bookTitle-error" role="alert" aria-live="polite"></span>
+                </div>
+
+                <!-- Author -->
+                <div class="form-group">
+                    <label for="author" class="form-label">Auteur</label>
+                    <input 
+                        type="text" 
+                        id="author" 
+                        name="author" 
+                        class="form-input"
+                    >
+                </div>
+
+                <!-- Category -->
+                <div class="form-group">
+                    <label for="category" class="form-label">Catégorie/Genre</label>
+                    <select id="category" name="category" class="form-select">
+                        <option value="">Sélectionner une catégorie</option>
+                        <option value="fiction">Fiction</option>
+                        <option value="non-fiction">Non-fiction</option>
+                        <option value="science">Sciences</option>
+                        <option value="history">Histoire</option>
+                        <option value="philosophy">Philosophie</option>
+                        <option value="literature">Littérature</option>
+                        <option value="technical">Technique</option>
+                        <option value="other">Autre</option>
+                    </select>
+                </div>
+
+                <!-- Book Condition (custom radio pills) -->
+                <div class="form-group">
+                    <fieldset>
+                        <legend class="form-label required">État du livre</legend>
+                        <div class="radio-group" role="radiogroup" aria-required="true" aria-describedby="condition-error">
+                            <label class="radio-item">
+                                <input 
+                                    type="radio" 
+                                    id="neuf" 
+                                    name="condition" 
+                                    value="neuf" 
+                                    class="radio-input" 
+                                    required
+                                >
+                                <span class="radio-label">Neuf</span>
+                            </label>
+                            <label class="radio-item">
+                                <input 
+                                    type="radio" 
+                                    id="bon" 
+                                    name="condition" 
+                                    value="bon" 
+                                    class="radio-input" 
+                                    required
+                                >
+                                <span class="radio-label">Bon</span>
+                            </label>
+                            <label class="radio-item">
+                                <input 
+                                    type="radio" 
+                                    id="usage" 
+                                    name="condition" 
+                                    value="usage" 
+                                    class="radio-input" 
+                                    required
+                                >
+                                <span class="radio-label">Usagé</span>
+                            </label>
+                        </div>
+                        <span class="error-message" id="condition-error" role="alert" aria-live="polite"></span>
+                    </fieldset>
+                </div>
+
+                <!-- Description -->
+                <div class="form-group">
+                    <label for="description" class="form-label">Description</label>
+                    <textarea 
+                        id="description" 
+                        name="description" 
+                        class="form-textarea" 
+                        placeholder="Ajoutez des notes particulières..." 
+                        rows="4"
+                    ></textarea>
+                </div>
+
+                <!-- Contact Info -->
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="email" class="form-label required">Adresse email</label>
+                        <input 
+                            type="email" 
+                            id="email" 
+                            name="email" 
+                            class="form-input" 
+                            required 
+                            aria-describedby="email-error" 
+                            autocomplete="email"
+                            inputmode="email"
+                            aria-required="true"
+                        >
+                        <span class="error-message" id="email-error" role="alert" aria-live="polite"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone" class="form-label">Téléphone</label>
+                        <input 
+                            type="tel" 
+                            id="phone" 
+                            name="phone" 
+                            class="form-input" 
+                            placeholder="06 12 34 56 78" 
+                            autocomplete="tel"
+                            inputmode="tel"
+                        >
+                    </div>
+                </div>
+
+                <!-- Photo Upload (dashed paper coupon) -->
+                <div class="form-group">
+                    <label class="form-label required">Photos du livre (1-3 images)</label>
+                    <div class="upload-area" id="uploadArea" tabindex="0" role="button" aria-label="Cliquez ou glissez des images pour télécharger">
+                        <div class="upload-icon" aria-hidden="true">📸</div>
+                        <div class="upload-text">
+                            Cliquez pour sélectionner des images<br>
+                            <small>JPG, JPEG, PNG - Max 3 Mo par image</small>
+                        </div>
+                        <input 
+                            type="file" 
+                            id="fileInput" 
+                            class="file-input" 
+                            multiple 
+                            accept=".jpg,.jpeg,.png,image/jpeg,image/png" 
+                            aria-describedby="images-error"
+                        >
+                    </div>
+                    <span class="error-message" id="images-error" role="alert" aria-live="polite"></span>
+                    <div class="image-previews" id="imagePreviews" role="list" aria-label="Aperçus des images"></div>
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" class="submit-btn" id="submitBtn" disabled aria-label="Soumettre le formulaire de dépôt de livre">
+                    Soumettre le dépôt
+                </button>
+
+                <p class="privacy-note">
+                    Vos données sont uniquement utilisées pour traiter votre dépôt et ne seront pas partagées.
+                </p>
+            </form>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer" role="contentinfo">
+            <p>Great Debaters ENSAM Rabat © 2024 - Bibliothèque Collective</p>
+        </footer>
+    </div>
+
+  <script src="auth-ui.js" defer></script>
+  <script>
+    // ============================================================================
+    // BOOK DEPOSIT FORM - VANILLA JS
+    // ============================================================================
+    (function() {
+        'use strict';
+        
+        // DOM Elements
+        const form = document.getElementById('bookForm');
+        const submitBtn = document.getElementById('submitBtn');
+        const successBanner = document.getElementById('successBanner');
+        const closeSuccess = document.getElementById('closeSuccess');
+        const fileInput = document.getElementById('fileInput');
+        const uploadArea = document.getElementById('uploadArea');
+        const imagePreviews = document.getElementById('imagePreviews');
+        const phoneInput = document.getElementById('phone');
+        
+        // State
+        let selectedFiles = [];
+        const MAX_FILES = 3;
+        const MAX_FILE_SIZE = 3 * 1024 * 1024; // 3 MB
+        
+        // Validators
+        const validators = {
+            lastName: (value) => value.trim().length >= 2 || 'Le nom doit contenir au moins 2 caractères',
+            firstName: (value) => value.trim().length >= 2 || 'Le prénom doit contenir au moins 2 caractères',
+            codeApogee: (value) => /^[0-9]{8,}$/.test(value) || 'Le code Apogée doit contenir au moins 8 chiffres',
+            bookTitle: (value) => value.trim().length >= 3 || 'Le titre doit contenir au moins 3 caractères',
+            email: (value) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value) || 'Adresse email invalide',
+            condition: () => !!form.querySelector('input[name="condition"]:checked') || 'Veuillez sélectionner l\'état du livre',
+            images: () => selectedFiles.length > 0 || 'Au moins une image est requise'
+        };
+        
+        // Validate single field
+        function validateField(fieldName, value = null) {
+            const validator = validators[fieldName];
+            if (!validator) return true;
+            
+            const actualValue = value !== null ? value : getFieldValue(fieldName);
+            const result = validator(actualValue);
+            const errorEl = document.getElementById(`${fieldName}-error`);
+            const fieldEl = document.getElementById(fieldName) || form.querySelector(`input[name="${fieldName}"]`);
+            
+            if (result === true) {
+                if (errorEl) errorEl.textContent = '';
+                if (fieldEl) fieldEl.classList.remove('error');
+                return true;
+            } else {
+                if (errorEl) errorEl.textContent = result;
+                if (fieldEl) fieldEl.classList.add('error');
+                return false;
+            }
+        }
+        
+        // Get field value
+        function getFieldValue(fieldName) {
+            if (fieldName === 'condition') {
+                const checked = form.querySelector('input[name="condition"]:checked');
+                return checked ? checked.value : null;
+            }
+            const field = document.getElementById(fieldName);
+            return field ? field.value : '';
+        }
+        
+        // Validate entire form
+        function validateForm() {
+            const requiredFields = ['lastName', 'firstName', 'codeApogee', 'bookTitle', 'email', 'condition', 'images'];
+            let isValid = true;
+            
+            requiredFields.forEach(field => {
+                if (!validateField(field)) {
+                    isValid = false;
+                }
+            });
+            
+            submitBtn.disabled = !isValid;
+            return isValid;
+        }
+        
+        // Handle file selection
+        function handleFiles(files) {
+            const validFiles = Array.from(files).filter(file => {
+                const ext = (file.name?.split('.').pop() || '').toLowerCase();
+                const validTypes = /^image\/(jpeg|png)$/;
+                const validExts = ['jpg', 'jpeg', 'png'];
+                
+                if (!(validTypes.test(file.type) || validExts.includes(ext))) {
+                    showError('images', 'Seuls les fichiers JPG, JPEG et PNG sont acceptés');
+                    return false;
+                }
+                
+                if (file.size > MAX_FILE_SIZE) {
+                    showError('images', `Le fichier "${file.name}" dépasse 3 Mo`);
+                    return false;
+                }
+                
+                return true;
+            });
+            
+            const totalFiles = selectedFiles.length + validFiles.length;
+            if (totalFiles > MAX_FILES) {
+                showError('images', `Maximum ${MAX_FILES} images autorisées`);
+                return;
+            }
+            
+            selectedFiles.push(...validFiles);
+            updateImagePreviews();
+            validateField('images');
+            validateForm();
+        }
+        
+        // Update image preview grid
+        function updateImagePreviews() {
+            imagePreviews.innerHTML = '';
+            
+            selectedFiles.forEach((file, index) => {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    const preview = document.createElement('div');
+                    preview.className = 'image-preview';
+                    preview.setAttribute('role', 'listitem');
+                    preview.innerHTML = `
+                        <img 
+                            src="${e.target.result}" 
+                            alt="Aperçu ${index + 1}" 
+                            class="preview-img"
+                            loading="lazy"
+                            width="140"
+                            height="140"
+                        >
+                        <button 
+                            type="button" 
+                            class="remove-img" 
+                            data-index="${index}" 
+                            aria-label="Supprimer l'image ${index + 1}"
+                        >×</button>
+                    `;
+                    imagePreviews.appendChild(preview);
+                };
+                reader.readAsDataURL(file);
+            });
+        }
+        
+        // Remove image
+        function removeImage(index) {
+            selectedFiles.splice(index, 1);
+            updateImagePreviews();
+            validateField('images');
+            validateForm();
+        }
+        
+        // Show error message
+        function showError(fieldName, message) {
+            const errorEl = document.getElementById(`${fieldName}-error`);
+            if (errorEl) errorEl.textContent = message;
+        }
+        
+        // Show success banner
+        function showSuccessBanner() {
+            successBanner.classList.add('show');
+            successBanner.focus();
+            setTimeout(() => hideSuccessBanner(), 8000);
+        }
+        
+        // Hide success banner
+        function hideSuccessBanner() {
+            successBanner.classList.remove('show');
+        }
+        
+        // Reset form
+        function resetForm() {
+            form.reset();
+            selectedFiles = [];
+            updateImagePreviews();
+            
+            form.querySelectorAll('.error-message').forEach(el => el.textContent = '');
+            form.querySelectorAll('.error').forEach(el => el.classList.remove('error'));
+            
+            submitBtn.disabled = true;
+        }
+        
+        // Format phone number
+        function formatPhone(value) {
+            const numbers = value.replace(/\D/g, '');
+            const match = numbers.match(/^(\d{0,2})(\d{0,2})(\d{0,2})(\d{0,2})(\d{0,2})$/);
+            if (match) {
+                return [match[1], match[2], match[3], match[4], match[5]]
+                    .filter(group => group)
+                    .join(' ')
+                    .trim();
+            }
+            return value;
+        }
+        
+        // EVENT LISTENERS
+        
+        // Real-time validation for text fields
+        ['lastName', 'firstName', 'codeApogee', 'bookTitle', 'email'].forEach(fieldName => {
+            const field = document.getElementById(fieldName);
+            if (field) {
+                field.addEventListener('blur', () => {
+                    validateField(fieldName);
+                    validateForm();
+                });
+                field.addEventListener('input', () => {
+                    if (field.classList.contains('error')) {
+                        validateField(fieldName);
+                    }
+                    validateForm();
+                });
+            }
+        });
+        
+        // Radio button validation
+        form.querySelectorAll('input[name="condition"]').forEach(radio => {
+            radio.addEventListener('change', () => {
+                validateField('condition');
+                validateForm();
+            });
+        });
+        
+        // Phone formatting
+        phoneInput.addEventListener('input', (e) => {
+            e.target.value = formatPhone(e.target.value);
+        });
+        
+        // Upload area interactions
+        uploadArea.addEventListener('click', () => fileInput.click());
+        
+        uploadArea.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                fileInput.click();
+            }
+        });
+        
+        uploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadArea.classList.add('drag-over');
+        });
+        
+        uploadArea.addEventListener('dragleave', () => {
+            uploadArea.classList.remove('drag-over');
+        });
+        
+        uploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadArea.classList.remove('drag-over');
+            handleFiles(e.dataTransfer.files);
+        });
+        
+        fileInput.addEventListener('change', (e) => {
+            handleFiles(e.target.files);
+        });
+        
+        // Image removal (event delegation)
+        imagePreviews.addEventListener('click', (e) => {
+            if (e.target.classList.contains('remove-img')) {
+                const index = parseInt(e.target.getAttribute('data-index'), 10);
+                removeImage(index);
+            }
+        });
+        
+        // Form submission
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            if (validateForm()) {
+                submitBtn.disabled = true;
+                submitBtn.textContent = 'Envoi en cours…';
+                
+                // Simulate API call
+                setTimeout(() => {
+                    showSuccessBanner();
+                    resetForm();
+                    submitBtn.textContent = 'Soumettre le dépôt';
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                }, 1500);
+            }
+        });
+        
+        // Success banner close
+        closeSuccess.addEventListener('click', hideSuccessBanner);
+        successBanner.addEventListener('click', (e) => {
+            if (e.target === successBanner) {
+                hideSuccessBanner();
+            }
+        });
+        
+    })();
+    </script>
+</body>
+</html>

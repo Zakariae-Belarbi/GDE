@@ -1,0 +1,1717 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explore the Collection - Bibliothèque Littéraire</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <!--
+      What changed & why:
+      • Replaced cold blue palette with warm paper/ink/bronze tokens for vintage newspaper aesthetic
+      • Changed Cinzel to IM Fell English for authentic letterpress feel
+      • Redesigned header with dotted rules and small-caps navigation
+      • Converted section gradients to paper card containers with subtle texture overlay
+      • Added ornamental bronze rules (❧) to section titles
+      • Redesigned book cards with letterpress-style shadows on paper backgrounds
+      • Updated buttons to bronze outline with hover fill
+      • Added newspaper coupon-edge footer with dotted side rules
+      • Replaced emoji with inline SVG book icon in bronze
+      • Improved mobile card alignment with consistent grid heights
+      • Enhanced accessibility with proper focus states and reduced-motion support
+      • All images use loading="lazy" with explicit dimensions for zero CLS
+    -->
+
+    <style>
+        :root {
+            --bg-dark: #0f0e0d;
+            --panel: #1a1816;
+            --paper: #f2efe9;
+            --ink: #2a2723;
+            --ink-soft: #bfbab2;
+            --bronze: #b08b5b;
+            --stroke: #3a2f23;
+            --radius: 16px;
+            --shadow: 0 10px 30px rgba(0,0,0,.28);
+            --transition: all .22s cubic-bezier(.4,0,.2,1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--paper);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Header - Newspaper Masthead */
+        .header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: var(--bg-dark);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px dotted var(--stroke);
+            padding: 1.25rem 0;
+            transition: var(--transition);
+        }
+
+        .header-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .header-title {
+            font-family: 'IM Fell English', serif;
+            font-size: clamp(1.5rem, 4vw, 2rem);
+            font-weight: 400;
+            font-style: italic;
+            color: var(--paper);
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            white-space: nowrap;
+        }
+
+        /* Search Container */
+        .search-container {
+            position: relative;
+            flex-grow: 1;
+            max-width: 400px;
+            order: 3;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 0.75rem 1rem 0.75rem 3rem;
+            border: 1px solid var(--stroke);
+            border-radius: 25px;
+            background: var(--panel);
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.3);
+            color: var(--paper);
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            outline: none;
+            transition: var(--transition);
+        }
+
+        .search-input:focus {
+            border-color: var(--bronze);
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.3), 0 0 0 3px rgba(176, 139, 91, 0.2);
+        }
+
+        .search-input::placeholder {
+            color: var(--ink-soft);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 16px;
+            height: 16px;
+        }
+
+        /* Navigation - Small Caps */
+        nav.desktop {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        nav a {
+            color: var(--paper);
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            transition: var(--transition);
+            position: relative;
+            padding: 0.5rem 0;
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--bronze);
+            transition: var(--transition);
+        }
+
+        nav a:hover {
+            color: var(--bronze);
+        }
+
+        nav a:hover::after {
+            width: 100%;
+        }
+
+        /* Menu Toggle */
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0.5rem;
+            z-index: 1001;
+            min-width: 44px;
+            min-height: 44px;
+        }
+
+        .menu-toggle span {
+            display: block;
+            width: 22px;
+            height: 2px;
+            background: var(--paper);
+            margin: 4px 0;
+            transition: var(--transition);
+        }
+
+        .menu-toggle.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+
+        .menu-toggle.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .menu-toggle.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(6px, -5px);
+        }
+
+        /* Mobile Menu - Paper Texture */
+        .mobile-menu {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 85%;
+            max-width: 320px;
+            height: 100vh;
+            background: var(--paper);
+            z-index: 999;
+            transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+            padding: 5rem 2rem 2rem;
+            border-left: 3px solid var(--bronze);
+            box-shadow: -4px 0 20px rgba(0,0,0,0.4);
+        }
+
+        .mobile-menu.active {
+            right: 0;
+        }
+
+        .mobile-menu nav {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+            flex: 1;
+        }
+
+        .mobile-menu nav a {
+            color: var(--ink);
+            font-size: 1rem;
+            font-weight: 500;
+            text-decoration: none;
+            padding: 1rem 0;
+            border-bottom: 1px solid rgba(42, 39, 35, 0.15);
+            transition: var(--transition);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            font-size: 0.9rem;
+            min-height: 44px;
+            display: flex;
+            align-items: center;
+        }
+
+        .mobile-menu nav a:hover {
+            color: var(--bronze);
+            padding-left: 0.5rem;
+        }
+
+        .drawer-close {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            width: 44px;
+            height: 44px;
+            border: none;
+            background: transparent;
+            color: var(--ink);
+            font-size: 32px;
+            line-height: 1;
+            cursor: pointer;
+        }
+
+        /* Backdrop */
+        .backdrop {
+            position: fixed;
+            inset: 0;
+            z-index: 998;
+            background: rgba(0, 0, 0, 0.6);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s ease;
+        }
+
+        .backdrop.show {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        /* Main Content */
+        .main-content {
+            padding-bottom: 4rem;
+        }
+
+        .section {
+            position: relative;
+            padding: 3rem 0;
+            background: var(--bg-dark);
+        }
+
+        .section-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+
+        .section-container.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .section-header {
+            margin-bottom: 2rem;
+        }
+
+        .section-title {
+            font-family: 'IM Fell English', serif;
+            font-size: clamp(1.75rem, 5vw, 2.25rem);
+            font-weight: 400;
+            color: var(--paper);
+            text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+            position: relative;
+            display: inline-block;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-size: clamp(1.5rem, 4vw, 1.9rem);
+        }
+
+        .section-title::after {
+            content: '❧';
+            position: absolute;
+            bottom: -1.5rem;
+            left: 50%;
+            transform: translateX(-50%);
+            color: var(--bronze);
+            font-size: 1rem;
+            width: 80px;
+            text-align: center;
+        }
+
+        .section-title::before {
+            content: '';
+            position: absolute;
+            bottom: -1.2rem;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: var(--bronze);
+        }
+
+        /* Books Container - Paper Card */
+        .books-container {
+            position: relative;
+            margin-top: 3rem;
+            background: var(--paper);
+            color: var(--ink);
+            border: 1px solid color-mix(in srgb, var(--stroke) 70%, white);
+            border-radius: var(--radius);
+            padding: 1.25rem;
+            box-shadow: inset 0 1px 2px rgba(0,0,0,0.05);
+            position: relative;
+        }
+
+        .books-container::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: var(--radius);
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
+            pointer-events: none;
+            opacity: 0.4;
+        }
+
+        .scroll-nav {
+            display: none;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 10;
+            background: var(--bronze);
+            border: none;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            color: var(--bg-dark);
+            font-size: 1.3rem;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.2);
+        }
+
+        .scroll-nav:hover:not(:disabled) {
+            background: color-mix(in srgb, var(--bronze) 92%, white);
+            transform: translateY(-50%) scale(1.08);
+        }
+
+        .scroll-nav:active:not(:disabled) {
+            background: color-mix(in srgb, var(--bronze) 85%, black);
+        }
+
+        .scroll-nav:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .scroll-nav.prev {
+            left: -22px;
+        }
+
+        .scroll-nav.next {
+            right: -22px;
+        }
+
+        .books-scroll {
+            display: flex;
+            gap: 1.5rem;
+            overflow-x: auto;
+            scroll-behavior: smooth;
+            padding: 1rem 0;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+            overflow-y: visible;
+        }
+
+        .books-scroll::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* Book Cards - Letterpress Style */
+        .book-card {
+            flex: 0 0 clamp(160px, 18vw, 220px);
+            max-width: clamp(160px, 18vw, 220px);
+            background: var(--paper);
+            border-radius: 12px;
+            padding: 0;
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+            border: 1px solid rgba(42, 39, 35, 0.12);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255,255,255,0.5);
+        }
+
+        .book-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.18), inset 0 1px 0 rgba(255,255,255,0.5);
+        }
+
+        .book-cover {
+            width: 100%;
+            aspect-ratio: 3/4;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 0.75rem;
+            transition: var(--transition);
+        }
+
+        .book-card:hover .book-cover {
+            transform: scale(1.02);
+        }
+
+        .book-info {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 0 1rem 1rem;
+        }
+
+        .book-title {
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--ink);
+            margin-bottom: 0.5rem;
+            display: -webkit-box;
+            line-clamp: 2;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            line-height: 1.3;
+        }
+
+        .book-author {
+            color: var(--ink-soft);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-bottom: 0.75rem;
+        }
+
+        .book-price {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--ink);
+            margin-bottom: 1rem;
+        }
+
+        .borrow-btn {
+            width: 100%;
+            min-height: 44px;
+            border-radius: 8px;
+            border: 1px solid var(--stroke);
+            background: transparent;
+            color: var(--ink);
+            font-weight: 500;
+            transition: var(--transition);
+            margin-top: auto;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        .borrow-btn:hover {
+            background: var(--bronze);
+            border-color: var(--bronze);
+            color: var(--bg-dark);
+        }
+
+        .borrow-btn:focus-visible {
+            outline: 2px solid var(--bronze);
+            outline-offset: 2px;
+        }
+
+        /* View All Card */
+        .view-all-card {
+            flex: 0 0 clamp(160px, 18vw, 220px);
+            max-width: clamp(160px, 18vw, 220px);
+            min-height: 320px;
+            background: var(--paper);
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            color: var(--ink);
+            transition: var(--transition);
+            border: 1px solid rgba(42, 39, 35, 0.12);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255,255,255,0.5);
+            padding: 1rem;
+        }
+
+        .view-all-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.18), inset 0 1px 0 rgba(255,255,255,0.5);
+            background: color-mix(in srgb, var(--paper) 95%, var(--bronze));
+        }
+
+        .view-all-icon {
+            margin-bottom: 1rem;
+        }
+
+        .view-all-text {
+            font-family: 'IM Fell English', serif;
+            font-size: 1.1rem;
+            font-weight: 400;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--bronze);
+        }
+
+        /* Footer - Newspaper Coupon Edge */
+        .site-footer {
+            background: var(--panel);
+            color: var(--paper);
+            padding: 3rem 0 2rem;
+            margin-top: 4rem;
+            position: relative;
+        }
+
+        .site-footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 8px;
+            background: linear-gradient(135deg, var(--bronze) 25%, transparent 25%),
+                        linear-gradient(-135deg, var(--bronze) 25%, transparent 25%);
+            background-size: 16px 8px;
+            background-position: 0 0, 8px 0;
+        }
+
+        .footer-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: grid;
+            gap: 2rem;
+        }
+
+        .footer-brand {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .site-footer .logo {
+            width: 44px;
+            height: 44px;
+            border-radius: 8px;
+            display: grid;
+            place-items: center;
+            background: var(--bronze);
+            color: var(--bg-dark);
+            font-weight: 700;
+            font-size: 1.25rem;
+            font-family: 'IM Fell English', serif;
+        }
+
+        .brand-name {
+            font-weight: 600;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .brand-tagline {
+            color: var(--ink-soft);
+            font-size: 0.9rem;
+            font-style: italic;
+        }
+
+        .footer-nav {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem 2rem;
+            align-items: center;
+            position: relative;
+        }
+
+        .footer-nav::before,
+        .footer-nav::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: repeating-linear-gradient(90deg, var(--stroke) 0, var(--stroke) 4px, transparent 4px, transparent 8px);
+        }
+
+        .footer-nav::before {
+            margin-right: 1rem;
+        }
+
+        .footer-nav::after {
+            margin-left: 1rem;
+        }
+
+        .footer-nav a {
+            color: var(--paper);
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            font-size: 0.85rem;
+            transition: var(--transition);
+            white-space: nowrap;
+        }
+
+        .footer-nav a:hover {
+            color: var(--bronze);
+        }
+
+        .footer-quote{
+    position: relative;
+    font-family: 'Cinzel', serif;     /* look classique */
+    font-style: normal;
+    letter-spacing: .02em;
+    line-height: 1.8;
+    color: rgba(255,255,255,.92);
+    /* ruban allongé */
+    margin: 1rem -2rem 0;             /* déborde pour s'étirer visuellement */
+    padding: 1.25rem 2.25rem 2.25rem;
+    border-radius: 18px;
+    background:
+        radial-gradient(120% 60% at 50% 0%, rgba(255,255,255,.05), rgba(255,255,255,0) 70%) ,
+        linear-gradient(135deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+    border: 1px solid rgba(255,255,255,.10);
+    box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.06),
+        0 8px 24px rgba(0,0,0,.25);
+    text-align: center;
+    }
+
+    /* grandes guillemets décoratives */
+    .footer-quote::before,
+    .footer-quote::after{
+    position: absolute;
+    font-size: 2.25rem;
+    line-height: 1;
+    color: rgba(255,255,255,.25);
+    font-family: 'Cinzel', serif;
+    }
+    .footer-quote::before{
+    content: "«";
+    left: 1rem; top: .75rem;
+    }
+    .footer-quote::after{
+    content: "»";
+    right: 1rem; bottom: 1.75rem;
+    }
+
+    /* longue ligne + fleuron centrés dessous */
+    .footer-quote .ornament{
+    position: relative;
+    display: block;
+    margin: .85rem auto 0;
+    width: min(520px, 80%);
+    height: 1px;
+    background: linear-gradient(90deg,
+        rgba(255,255,255,0) 0%,
+        rgba(255,255,255,.35) 15%,
+        rgba(255,255,255,.5) 50%,
+        rgba(255,255,255,.35) 85%,
+        rgba(255,255,255,0) 100%);
+    }
+    .footer-quote .ornament::after{
+    content: "❧";
+    position: absolute; inset: 0;
+    margin: auto; width: max-content; height: max-content;
+    padding: 0 .35rem;
+    background: transparent;
+    color: var(--bronze);
+    font-size: 1rem;
+    transform: translateY(-.65rem);
+    }
+
+    /* petite lettrine “ancienne” (sur la première lettre) */
+    .footer-quote:first-letter{
+    initial-letter: 2 1;      /* support moderne */
+    -webkit-initial-letter: 2 1;
+    margin-right: .25rem;
+    color: var(--bronze);
+    }
+    @supports not (initial-letter: 2 1){
+    .footer-quote:first-letter{
+        float: left; font-size: 1.8em; line-height: 1;
+        padding-right: .35rem; color: var(--bronze);
+    }
+    }
+
+    /* légère variante sur mobile : un peu moins large */
+    @media (max-width: 768px){
+    .footer-quote{ margin: .5rem -1rem 0; padding: 1rem 1.25rem 1.75rem; }
+    
+    }
+        .footer-meta{
+    display:flex; justify-content: space-between; align-items:center;
+    gap: 1rem; color: rgba(255,255,255,.65);
+    font-size: .9rem;
+    border-top: 1px solid rgba(255,255,255,.08);
+    padding-top: 1rem;
+    }
+
+        /* Responsive Design */
+        @media (min-width: 769px) {
+            .scroll-nav {
+                display: block;
+            }
+
+            .footer-container {
+                grid-template-columns: 1fr auto;
+                grid-template-areas:
+                    "brand nav"
+                    "quote quote"
+                    "meta meta";
+            }
+
+            .footer-brand {
+                grid-area: brand;
+            }
+
+            .footer-nav {
+                grid-area: nav;
+                align-self: center;
+            }
+
+            .footer-quote {
+                grid-area: quote;
+            }
+
+            .footer-meta {
+                grid-area: meta;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header-container {
+                justify-content: space-between;
+            }
+
+            .search-container {
+                flex-basis: 100%;
+                max-width: 100%;
+                order: 3;
+            }
+
+            .menu-toggle {
+                display: block;
+                order: 2;
+            }
+
+            nav.desktop {
+                display: none;
+            }
+
+            .section {
+                padding: 2rem 0;
+            }
+
+            .section-container {
+                padding: 0 1rem;
+            }
+
+            .books-container {
+                padding: 1rem;
+                gap: 0.75rem;
+                align-items: flex-start;
+                
+            }
+
+            .books-scroll {
+                scroll-snap-type: x mandatory;
+                -webkit-overflow-scrolling: touch;
+                gap: 1rem;
+                padding-bottom: 0.5rem;
+            }
+
+            .book-card,
+            .view-all-card {
+                flex: 0 0 140px;
+                max-width: 140px;
+                scroll-snap-align: start;
+            }
+
+            .book-card {
+                background: transparent;
+                border: none;
+                box-shadow: none;
+                padding: 0;
+            }
+
+            .book-card:hover {
+                transform: none;
+                box-shadow: none;
+            }
+
+            .book-cover {
+                border-radius: 6px;
+                margin: 0 0 0.5rem 0;
+            }
+
+            .book-info {
+                display: grid;
+                grid-template-rows: auto minmax(1rem, auto) 1.25rem 44px;
+                gap: 6px;
+                min-height: 9.5rem;
+                padding: 0;
+            }
+
+            .book-title {
+                font-size: 0.95rem;
+                line-height: 1.35;
+                min-height: calc(0.95rem * 1.35 * 2);
+                margin: 0;
+            }
+
+            .book-author {
+                font-size: 0.8rem;
+                min-height: 1rem;
+                margin: 0;
+            }
+
+            .book-price {
+                font-size: 0.95rem;
+                height: 1.25rem;
+                margin: 0;
+                display: flex;
+                align-items: center;
+            }
+
+            .borrow-btn {
+                border: 1px solid rgba(42, 39, 35, 0.25);
+                background: transparent;
+                margin-top: 0;
+            }
+
+            .view-all-card {
+                background: transparent;
+                border: none;
+                box-shadow: none;
+            }
+
+            .footer-quote {
+                padding: 1.5rem 2rem 2rem;
+                font-size: 1rem;
+            }
+
+            .footer-nav {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .footer-nav::before,
+            .footer-nav::after {
+                display: none;
+            }
+
+            .footer-meta {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header-title {
+                font-size: 1.3rem;
+            }
+
+            .section-title {
+                font-size: 1.4rem;
+            }
+        }
+
+        /* Accessibility */
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+                scroll-behavior: auto !important;
+            }
+
+            .section-container {
+                opacity: 1;
+                transform: none;
+            }
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        *:focus-visible {
+            outline: 2px solid var(--bronze);
+            outline-offset: 2px;
+        }
+
+        body.no-scroll {
+            overflow: hidden;
+        }
+
+        /* SVG Icons */
+        .u-visually-hidden {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border-width: 0;
+        }
+
+
+/* === Screenshot look: dark smoked container + frameless items === */
+:root{
+  /* warmer gold like the arrows in your screenshots */
+  --gold: #c9a36b;
+}
+
+/* Container: dark, soft gradient, subtle inner glow */
+.books-container{
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02)) ,
+    radial-gradient(120% 160% at 50% 0%, rgba(255,255,255,.06), transparent 60%) ,
+    #3b3835; /* base */
+  border: 1px solid rgba(255,255,255,.08);
+  box-shadow:
+    0 14px 40px rgba(0,0,0,.45),
+    inset 0 1px 0 rgba(255,255,255,.06);
+  backdrop-filter: blur(2px);
+  padding: 1.25rem 1.25rem 1.5rem;
+  border-radius: 24px;
+  color: var(--paper);
+}
+
+/* make the texture overlay way softer so it doesn’t look “paper white” */
+.books-container::before{ opacity: .08; }
+
+/* arrows look like the screenshots (warm gold) */
+.scroll-nav{
+  background: var(--gold);
+  color: #1a1816;
+  box-shadow: 0 8px 24px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.25);
+}
+.scroll-nav:hover{ background: color-mix(in srgb, var(--gold) 95%, white); }
+
+/* Horizontal list spacing like the screenshots */
+.books-scroll{
+  gap: 2rem;
+  padding: .75rem .25rem 0;
+}
+
+/* ---- Frameless item design (no cards) ---- */
+.book-card{
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0;
+  flex: 0 0 clamp(180px, 18vw, 260px);
+  max-width: clamp(180px, 18vw, 260px);
+  transition: transform .22s cubic-bezier(.4,0,.2,1);
+}
+.book-card:hover{ transform: translateY(-4px); }
+
+/* Image: big rounded corners + soft drop shadow */
+.book-cover{
+  border-radius: 20px;
+  margin: 0 0 .9rem 0;
+  aspect-ratio: 3/4;
+  object-fit: cover;
+  box-shadow: 0 10px 30px rgba(0,0,0,.35);
+  transition: transform .22s cubic-bezier(.4,0,.2,1);
+}
+.book-card:hover .book-cover{ transform: scale(1.02); }
+
+/* Text styles to match the vibe in the screenshots */
+.book-info{ padding: 0; color: var(--paper); }
+.book-title{
+  font-family: 'IM Fell English', serif;   /* same family as headings */
+  font-weight: 400;
+  font-size: 1.05rem;
+  color: #f4efe8;
+  margin: 0 0 .35rem 0;
+  line-height: 1.25;
+  display: -webkit-box; -line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+}
+.book-author{
+  color: rgba(255,255,255,.65);
+  font-size: .85rem;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  margin: 0 0 .6rem 0;
+}
+.book-price{
+  color: #f4efe8;
+  opacity: .9;
+  font-weight: 600;
+  margin: 0 0 .9rem 0;
+}
+
+/* Pill outline buttons like in the screenshot row */
+.borrow-btn{
+  border-radius: 9999px;
+  background: transparent;
+  border: 1px solid rgba(255,255,255,.28);
+  color: #f4efe8;
+  min-height: 44px;
+  font-weight: 500;
+}
+.borrow-btn:hover{
+  background: rgba(255,255,255,.08);
+  border-color: rgba(255,255,255,.55);
+}
+.borrow-btn:active{
+  background: rgba(255,255,255,.12);
+}
+
+/* “Voir tout” tile should also be frameless */
+.view-all-card{
+  background: transparent;
+  border: 1px dashed rgba(255,255,255,.18);
+  box-shadow: none;
+  border-radius: 18px;
+  color: #f4efe8;
+}
+.view-all-card:hover{
+  transform: translateY(-4px);
+  background: rgba(255,255,255,.04);
+  border-color: rgba(255,255,255,.35);
+}
+
+/* Desktop titles sit over a darker container—slightly tighten spacing */
+.section-header{ margin-bottom: 1.25rem; }
+
+/* Keep mobile nice and compact */
+@media (max-width: 768px){
+  .books-scroll{ gap: 1.25rem; }
+  .book-card{ flex-basis: 150px; max-width: 150px; }
+}
+.mobile-menu nav{
+  margin-top: 1rem;   /* ajuste 0.5rem → 1rem selon ton goût */
+}
+    </style>
+</head>
+
+<body>
+    <svg class="u-visually-hidden">
+        <defs>
+            <symbol id="icon-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"/>
+                <path d="m21 21-4.35-4.35"/>
+            </symbol>
+            <symbol id="icon-book" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+            </symbol>
+        </defs>
+    </svg>
+
+    <header class="header">
+        <div class="header-container">
+            <h1 class="header-title">Explore the Collection</h1>
+            <nav class="desktop">
+                <a href="index.html">Home</a>
+                <a href="about.html">About GDE</a>
+                <a href="share2.html">Déposer</a>
+                <a href="login2.html" id="link-login">Login</a>
+                <a href="login2.html#registerform" id="link-register">Sign Up</a>
+            </nav>
+            <div id="user-chip-desktop" aria-live="polite"></div>
+            <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu" aria-expanded="false">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <div class="search-container">
+                <svg class="search-icon" aria-hidden="true" width="16" height="16">
+                    <use href="#icon-search"/>
+                </svg>
+                <input
+                    type="search"
+                    class="search-input"
+                    placeholder="Rechercher un livre, auteur..."
+                    aria-label="Rechercher dans la collection"
+                    id="searchInput"
+                >
+            </div>
+        </div>
+    </header>
+
+    <div class="backdrop" id="backdrop" aria-hidden="true"></div>
+
+    <div class="mobile-menu" id="mobile-menu" role="dialog" aria-modal="true" aria-label="Menu de navigation">
+        <button class="drawer-close" id="drawerClose" aria-label="Fermer le menu">×</button>
+        <nav>
+            <a href="catalogue.html">Catalogue</a>
+            <a href="index.html">Home</a>
+            <a href="about.html">About GDE</a>
+            <a href="share2.html">Déposer</a>
+            <a href="login2.html">Login</a>
+            <a href="login2.html#registerform">Sign Up</a>
+        </nav>
+        <div id="user-chip-mobile-slot"></div>
+    </div>
+
+    <main class="main-content">
+        <section class="section" data-category="literature">
+            <div class="section-container">
+                <div class="section-header">
+                    <h2 class="section-title">Littérature Classique</h2>
+                </div>
+                <div class="books-container">
+                    <button class="scroll-nav prev" aria-label="Précédent" tabindex="0">‹</button>
+                    <div class="books-scroll" role="list" tabindex="0">
+                        <div class="book-card" role="listitem" data-title="Les Misérables Victor Hugo" data-author="Victor Hugo">
+                            <img src="images/misérable.png" alt="Couverture des Misérables" class="book-cover" loading="lazy" width="220" height="293">
+                            <div class="book-info">
+                                <h3 class="book-title">Les Misérables</h3>
+                                <p class="book-author">Victor Hugo</p>
+                                <p class="book-price">24.90 €</p>
+                                <button class="borrow-btn" onclick="window.location.href='form.html'">Emprunter</button>
+
+                            </div>
+                        </div>
+                        <div class="book-card" role="listitem" data-title="Notre-Dame de Paris Victor Hugo" data-author="Victor Hugo">
+                            <img src="images/paris.png" alt="Couverture de Notre-Dame de Paris" class="book-cover" loading="lazy" width="220" height="293">
+                            <div class="book-info">
+                                <h3 class="book-title">Notre-Dame de Paris</h3>
+                                <p class="book-author">Victor Hugo</p>
+                                <p class="book-price">22.50 €</p>
+                                <button class="borrow-btn" onclick="window.location.href='form.html'">Emprunter</button>
+                            </div>
+                        </div>
+                        <div class="book-card" role="listitem" data-title="Madame Bovary Gustave Flaubert" data-author="Gustave Flaubert">
+                            <img src="images/livre.png" alt="Couverture de Madame Bovary" class="book-cover" loading="lazy" width="220" height="293">
+                            <div class="book-info">
+                                <h3 class="book-title">Madame Bovary</h3>
+                                <p class="book-author">Gustave Flaubert</p>
+                                <p class="book-price">19.90 €</p>
+                                <button class="borrow-btn" onclick="window.location.href='form.html'">Emprunter</button>
+                            </div>
+                        </div>
+                        <div class="book-card" role="listitem" data-title="Le Père Goriot Honoré de Balzac" data-author="Honoré de Balzac">
+                            <img src="https://images.pexels.com/photos/1370295/pexels-photo-1370295.jpeg?w=220&h=293" alt="Couverture du Père Goriot" class="book-cover" loading="lazy" width="220" height="293">
+                            <div class="book-info">
+                                <h3 class="book-title">Le Père Goriot</h3>
+                                <p class="book-author">Honoré de Balzac</p>
+                                <p class="book-price">21.00 €</p>
+                                <button class="borrow-btn" onclick="window.location.href='form.html'">Emprunter</button>
+                            </div>
+                        </div>
+                        <div class="book-card" role="listitem" data-title="L'Étranger Albert Camus" data-author="Albert Camus">
+                            <img src="https://images.pexels.com/photos/1029141/pexels-photo-1029141.jpeg?w=220&h=293" alt="Couverture de L'Étranger" class="book-cover" loading="lazy" width="220" height="293">
+                            <div class="book-info">
+                                <h3 class="book-title">L'Étranger</h3>
+                                <p class="book-author">Albert Camus</p>
+                                <p class="book-price">18.50 €</p>
+                                <button class="borrow-btn" onclick="window.location.href='form.html'">Emprunter</button>
+                            </div>
+                        </div>
+                        <div class="book-card" role="listitem" data-title="La Peste Albert Camus" data-author="Albert Camus">
+                            <img src="https://images.pexels.com/photos/1370295/pexels-photo-1370295.jpeg?w=220&h=293" alt="Couverture de La Peste" class="book-cover" loading="lazy" width="220" height="293">
+                            <div class="book-info">
+                                <h3 class="book-title">La Peste</h3>
+                                <p class="book-author">Albert Camus</p>
+                                <p class="book-price">20.00 €</p>
+                                <button class="borrow-btn" onclick="window.location.href='form.html'">Emprunter</button>
+                            </div>
+                        </div>
+                        <a href="#" class="view-all-card" role="listitem">
+                            <svg class="view-all-icon" aria-hidden="true" width="40" height="40">
+                                <use href="#icon-book" fill="var(--bronze)"/>
+                            </svg>
+                            <div class="view-all-text">Voir Tout</div>
+                        </a>
+                    </div>
+                    <button class="scroll-nav next" aria-label="Suivant" tabindex="0">›</button>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" data-category="romans">
+            <div class="section-container">
+                <div class="section-header">
+                    <h2 class="section-title">Romans Contemporains</h2>
+                </div>
+                <div class="books-container">
+                    <button class="scroll-nav prev" aria-label="Précédent" tabindex="0">‹</button>
+                    <div class="books-scroll" role="list" tabindex="0">
+                        <div class="book-card" role="listitem" data-title="L'Art de perdre Alice Zeniter" data-author="Alice Zeniter">
+                            <img src="https://images.pexels.com/photos/1029141/pexels-photo-1029141.jpeg?w=220&h=293" alt="Couverture de L'Art de perdre" class="book-cover" loading="lazy" width="220" height="293">
+                            <div class="book-info">
+                                <h3 class="book-title">L'Art de perdre</h3>
+                                <p class="book-author">Alice Zeniter</p>
+                                <p class="book-price">23.00 €</p>
+                                <button class="borrow-btn" onclick="window.location.href='form.html'">Emprunter</button>
+                            </div>
+                        </div>
+                        <div class="book-card" role="listitem" data-title="Vernon Subutex Virginie Despentes" data-author="Virginie Despentes">
+                            <img src="https://images.pexels.com/photos/1370295/pexels-photo-1370295.jpeg?w=220&h=293" alt="Couverture de Vernon Subutex" class="book-cover" loading="lazy" width="220" height="293">
+                            <div class="book-info">
+                                <h3 class="book-title">Vernon Subutex</h3>
+                                <p class="book-author">Virginie Despentes</p>
+                                <p class="book-price">25.50 €</p>
+                                <button class="borrow-btn" onclick="window.location.href='form.html'">Emprunter</button>
+                            </div>
+                        </div>
+                        <div class="book-card" role="listitem" data-title="Changer l'eau des fleurs Valérie Perrin" data-author="Valérie Perrin">
+                            <img src="https://images.pexels.com/photos/1029141/pexels-photo-1029141.jpeg?w=220&h=293" alt="Couverture de Changer l'eau des fleurs" class="book-cover" loading="lazy" width="220" height="293">
+                            <div class="book-info">
+                                <h3 class="book-title">Changer l'eau des fleurs</h3>
+                                <p class="book-author">Valérie Perrin</p>
+                                <p class="book-price">22.90 €</p>
+                                <button class="borrow-btn" onclick="window.location.href='form.html'">Emprunter</button>
+                            </div>
+                        </div>
+                        <div class="book-card" role="listitem" data-title="L'Anomalie Hervé Le Tellier" data-author="Hervé Le Tellier">
+                            <img src="https://images.pexels.com/photos/1370295/pexels-photo-1370295.jpeg?w=220&h=293" alt="Couverture de L'Anomalie" class="book-cover" loading="lazy" width="220" height="293">
+                            <div class="book-info">
+                                <h3 class="book-title">L'Anomalie</h3>
+                                <p class="book-author">Hervé Le Tellier</p>
+                                <p class="book-price">21.50 €</p>
+                                <button class="borrow-btn" onclick="window.location.href='form.html'">Emprunter</button>
+                            </div>
+                        </div>
+                        <div class="book-card" role="listitem" data-title="Civilizations Laurent Binet" data-author="Laurent Binet">
+                            <img src="https://images.pexels.com/photos/1029141/pexels-photo-1029141.jpeg?w=220&h=293" alt="Couverture de Civilizations" class="book-cover" loading="lazy" width="220" height="293">
+                            <div class="book-info">
+                                <h3 class="book-title">Civilizations</h3>
+                                <p class="book-author">Laurent Binet</p>
+                                <p class="book-price">24.00 €</p>
+                                <button class="borrow-btn" onclick="window.location.href='form.html'">Emprunter</button>
+                            </div>
+                        </div>
+                        <div class="book-card" role="listitem" data-title="Yoga Emmanuel Carrère" data-author="Emmanuel Carrère">
+                            <img src="https://images.pexels.com/photos/1370295/pexels-photo-1370295.jpeg?w=220&h=293" alt="Couverture de Yoga" class="book-cover" loading="lazy" width="220" height="293">
+                            <div class="book-info">
+                                <h3 class="book-title">Yoga</h3>
+                                <p class="book-author">Emmanuel Carrère</p>
+                                <p class="book-price">23.50 €</p>
+                                <button class="borrow-btn" onclick="window.location.href='form.html'">Emprunter</button>
+                            </div>
+                        </div>
+                        <a href="#" class="view-all-card" role="listitem">
+                            <svg class="view-all-icon" aria-hidden="true" width="40" height="40">
+                                <use href="#icon-book" fill="var(--bronze)"/>
+                            </svg>
+                            <div class="view-all-text">Voir Tout</div>
+                        </a>
+                    </div>
+                    <button class="scroll-nav next" aria-label="Suivant" tabindex="0">›</button>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" data-category="sciences">
+            <div class="section-container">
+                <div class="section-header">
+                    <h2 class="section-title">Sciences & Philosophie</h2>
+                </div>
+                <div class="books-container">
+                    <button class="scroll-nav prev" aria-label="Précédent" tabindex="0">‹</button>
+                    <div class="books-scroll" role="list" tabindex="0">
+                        <div class="book-card" role="listitem" data-title="Sapiens Yuval Noah Harari" data-author="Yuval Noah Harari">
+                            <img src="https://images.pexels.com/photos/1029141/pexels-photo-1029141.jpeg?w=220&h=293" alt="Couverture de Sapiens" class="book-cover" loading="lazy" width="220" height="293">
+                            <div class="book-info">
+                                <h3 class="book-title">Sapiens</h3>
+                                <p class="book-author">Yuval Noah Harari</p>
+                                <p class="book-price">26.90 €</p>
+                                <button class="borrow-btn" onclick="window.location.href='form.html'">Emprunter</button>
+                            </div>
+                        </div>
+                        <div class="book-card" role="listitem" data-title="Homo Deus Yuval Noah Harari" data-author="Yuval Noah Harari">
+                            <img src="https://images.pexels.com/photos/1370295/pexels-photo-1370295.jpeg?w=220&h=293" alt="Couverture de Homo Deus" class="book-cover" loading="lazy" width="220" height="293">
+                            <div class="book-info">
+                                <h3 class="book-title">Homo Deus</h3>
+                                <p class="book-author">Yuval Noah Harari</p>
+                                <p class="book-price">25.50 €</p>
+                                <button class="borrow-btn" onclick="window.location.href='form.html'">Emprunter</button>
+                            </div>
+                        </div>
+                        <div class="book-card" role="listitem" data-title="Le Gène Siddhartha Mukherjee" data-author="Siddhartha Mukherjee">
+                            <img src="https://images.pexels.com/photos/1029141/pexels-photo-1029141.jpeg?w=220&h=293" alt="Couverture du Gène" class="book-cover" loading="lazy" width="220" height="293">
+                            <div class="book-info">
+                                <h3 class="book-title">Le Gène</h3>
+                                <p class="book-author">Siddhartha Mukherjee</p>
+                                <p class="book-price">28.00 €</p>
+                                <button class="borrow-btn" onclick="window.location.href='form.html'">Emprunter</button>
+                            </div>
+                        </div>
+                        <div class="book-card" role="listitem" data-title="L'Être et le Temps Martin Heidegger" data-author="Martin Heidegger">
+                            <img src="https://images.pexels.com/photos/1370295/pexels-photo-1370295.jpeg?w=220&h=293" alt="Couverture de L'Être et le Temps" class="book-cover" loading="lazy" width="220" height="293">
+                            <div class="book-info">
+                                <h3 class="book-title">L'Être et le Temps</h3>
+                                <p class="book-author">Martin Heidegger</p>
+                                <p class="book-price">32.00 €</p>
+                                <button class="borrow-btn" onclick="window.location.href='form.html'">Emprunter</button>
+                            </div>
+                        </div>
+                        <div class="book-card" role="listitem" data-title="Critique de la raison pure Emmanuel Kant" data-author="Emmanuel Kant">
+                            <img src="https://images.pexels.com/photos/1029141/pexels-photo-1029141.jpeg?w=220&h=293" alt="Couverture de Critique de la raison pure" class="book-cover" loading="lazy" width="220" height="293">
+                            <div class="book-info">
+                                <h3 class="book-title">Critique de la raison pure</h3>
+                                <p class="book-author">Emmanuel Kant</p>
+                                <p class="book-price">29.50 €</p>
+                                <button class="borrow-btn" onclick="window.location.href='form.html'">Emprunter</button>
+                            </div>
+                        </div>
+                        <div class="book-card" role="listitem" data-title="Une brève histoire du temps Stephen Hawking" data-author="Stephen Hawking">
+                            <img src="https://images.pexels.com/photos/1370295/pexels-photo-1370295.jpeg?w=220&h=293" alt="Couverture d'Une brève histoire du temps" class="book-cover" loading="lazy" width="220" height="293">
+                            <div class="book-info">
+                                <h3 class="book-title">Une brève histoire du temps</h3>
+                                <p class="book-author">Stephen Hawking</p>
+                                <p class="book-price">24.90 €</p>
+                                <button class="borrow-btn" onclick="window.location.href='form.html'">Emprunter</button>
+                            </div>
+                        </div>
+                        <a href="#" class="view-all-card" role="listitem">
+                            <svg class="view-all-icon" aria-hidden="true" width="40" height="40">
+                                <use href="#icon-book" fill="var(--bronze)"/>
+                            </svg>
+                            <div class="view-all-text">Voir Tout</div>
+                        </a>
+                    </div>
+                    <button class="scroll-nav next" aria-label="Suivant" tabindex="0">›</button>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" data-category="histoire">
+            <div class="section-container">
+                <div class="section-header">
+                    <h2 class="section-title">Histoire & Biographies</h2>
+                </div>
+                <div class="books-container">
+                    <button class="scroll-nav prev" aria-label="Précédent" tabindex="0">‹</button>
+                    <div class="books-scroll" role="list" tabindex="0">
+                        <div class="book-card" role="listitem" data-title="Les Rois maudits Maurice Druon" data-author="Maurice Druon">
+                            <img src="https://images.pexels.com/photos/1029141/pexels-photo-1029141.jpeg?w=220&h=293" alt="Couverture des Rois maudits" class="book-cover" loading="lazy" width="220" height="293">
+                            <div class="book-info">
+                                <h3 class="book-title">Les Rois maudits</h3>
+                                <p class="book-author">Maurice Druon</p>
+                                <p class="book-price">27.50 €</p>
+                                <button class="borrow-btn" onclick="window.location.href='form.html'">Emprunter</button>
+                            </div>
+                        </div>
+                        <div class="book-card" role="listitem" data-title="Mémoires de guerre Charles de Gaulle" data-author="Charles de Gaulle">
+                            <img src="https://images.pexels.com/photos/1370295/pexels-photo-1370295.jpeg?w=220&h=293" alt="Couverture de Mémoires de guerre" class="book-cover" loading="lazy" width="220" height="293">
+                            <div class="book-info">
+                                <h3 class="book-title">Mémoires de guerre</h3>
+                                <p class="book-author">Charles de Gaulle</p>
+                                <p class="book-price">31.00 €</p>
+                                <button class="borrow-btn" onclick="window.location.href='form.html'">Emprunter</button>
+                            </div>
+                        </div>
+                        <div class="book-card" role="listitem" data-title="L'Histoire de France Ernest Lavisse" data-author="Ernest Lavisse">
+                            <img src="https://images.pexels.com/photos/1029141/pexels-photo-1029141.jpeg?w=220&h=293" alt="Couverture de L'Histoire de France" class="book-cover" loading="lazy" width="220" height="293">
+                            <div class="book-info">
+                                <h3 class="book-title">L'Histoire de France</h3>
+                                <p class="book-author">Ernest Lavisse</p>
+                                <p class="book-price">35.00 €</p>
+                                <button class="borrow-btn" onclick="window.location.href='form.html'">Emprunter</button>
+                            </div>
+                        </div>
+                        <div class="book-card" role="listitem" data-title="Napoléon Jean Tulard" data-author="Jean Tulard">
+                            <img src="https://images.pexels.com/photos/1370295/pexels-photo-1370295.jpeg?w=220&h=293" alt="Couverture de Napoléon" class="book-cover" loading="lazy" width="220" height="293">
+                            <div class="book-info">
+                                <h3 class="book-title">Napoléon</h3>
+                                <p class="book-author">Jean Tulard</p>
+                                <p class="book-price">26.50 €</p>
+                                <button class="borrow-btn" onclick="window.location.href='form.html'">Emprunter</button>
+                            </div>
+                        </div>
+                        <div class="book-card" role="listitem" data-title="Le Siècle des Lumières Voltaire" data-author="Voltaire">
+                            <img src="https://images.pexels.com/photos/1029141/pexels-photo-1029141.jpeg?w=220&h=293" alt="Couverture du Siècle des Lumières" class="book-cover" loading="lazy" width="220" height="293">
+                            <div class="book-info">
+                                <h3 class="book-title">Le Siècle des Lumières</h3>
+                                <p class="book-author">Voltaire</p>
+                                <p class="book-price">23.90 €</p>
+                                <button class="borrow-btn" onclick="window.location.href='form.html'">Emprunter</button>
+                            </div>
+                        </div>
+                        <div class="book-card" role="listitem" data-title="Marie-Antoinette Stefan Zweig" data-author="Stefan Zweig">
+                            <img src="https://images.pexels.com/photos/1370295/pexels-photo-1370295.jpeg?w=220&h=293" alt="Couverture de Marie-Antoinette" class="book-cover" loading="lazy" width="220" height="293">
+                            <div class="book-info">
+                                <h3 class="book-title">Marie-Antoinette</h3>
+                                <p class="book-author">Stefan Zweig</p>
+                                <p class="book-price">22.00 €</p>
+                                <button class="borrow-btn" onclick="window.location.href='form.html'">Emprunter</button>
+                            </div>
+                        </div>
+                        <a href="#" class="view-all-card" role="listitem">
+                            <svg class="view-all-icon" aria-hidden="true" width="40" height="40">
+                                <use href="#icon-book" fill="var(--bronze)"/>
+                            </svg>
+                            <div class="view-all-text">Voir Tout</div>
+                        </a>
+                    </div>
+                    <button class="scroll-nav next" aria-label="Suivant" tabindex="0">›</button>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" data-category="premium">
+            <div class="section-container">
+                <div class="section-header">
+                    <h2 class="section-title">Livres Premium</h2>
+                </div>
+                <div class="books-container">
+                    <button class="scroll-nav prev" aria-label="Précédent" tabindex="0">‹</button>
+                    <div class="books-scroll" role="list" tabindex="0">
+                        <div class="book-card" role="listitem" data-title="Éditions Originales Collection" data-author="Éditions Rares">
+                            <img src="https://images.pexels.com/photos/1029141/pexels-photo-1029141.jpeg?w=220&h=293" alt="Couverture d'édition originale" class="book-cover" loading="lazy" width="220" height="293">
+                            <div class="book-info">
+                                <h3 class="book-title">Éditions Originales</h3>
+                                <p class="book-author">Collection Rare</p>
+                                <p class="book-price">120.00 €</p>
+                                <button class="borrow-btn" onclick="window.location.href='form.html'">Emprunter</button>
+                            </div>
+                        </div>
+                        <div class="book-card" role="listitem" data-title="Manuscrits Anciens Collection" data-author="Bibliothèque Nationale">
+                            <img src="https://images.pexels.com/photos/1370295/pexels-photo-1370295.jpeg?w=220&h=293" alt="Couverture de manuscrit ancien" class="book-cover" loading="lazy" width="220" height="293">
+                            <div class="book-info">
+                                <h3 class="book-title">Manuscrits Anciens</h3>
+                                <p class="book-author">Bibliothèque Nationale</p>
+                                <p class="book-price">89.90 €</p>
+                                <button class="borrow-btn" onclick="window.location.href='form.html'">Emprunter</button>
+                            </div>
+                        </div>
+                        <div class="book-card" role="listitem" data-title="Œuvres Complètes Proust" data-author="Marcel Proust">
+                            <img src="https://images.pexels.com/photos/1029141/pexels-photo-1029141.jpeg?w=220&h=293" alt="Couverture des œuvres complètes de Proust" class="book-cover" loading="lazy" width="220" height="293">
+                            <div class="book-info">
+                                <h3 class="book-title">Œuvres Complètes</h3>
+                                <p class="book-author">Marcel Proust</p>
+                                <p class="book-price">75.50 €</p>
+                                <button class="borrow-btn" onclick="window.location.href='form.html'">Emprunter</button>
+                            </div>
+                        </div>
+                        <div class="book-card" role="listitem" data-title="Collection Shakespeare" data-author="William Shakespeare">
+                            <img src="https://images.pexels.com/photos/1370295/pexels-photo-1370295.jpeg?w=220&h=293" alt="Couverture de la collection Shakespeare" class="book-cover" loading="lazy" width="220" height="293">
+                            <div class="book-info">
+                                <h3 class="book-title">Collection Shakespeare</h3>
+                                <p class="book-author">William Shakespeare</p>
+                                <p class="book-price">95.00 €</p>
+                                <button class="borrow-btn" onclick="window.location.href='form.html'">Emprunter</button>
+                            </div>
+                        </div>
+                        <div class="book-card" role="listitem" data-title="Encyclopédie Diderot" data-author="Denis Diderot">
+                            <img src="https://images.pexels.com/photos/1029141/pexels-photo-1029141.jpeg?w=220&h=293" alt="Couverture de l'Encyclopédie de Diderot" class="book-cover" loading="lazy" width="220" height="293">
+                            <div class="book-info">
+                                <h3 class="book-title">Encyclopédie Diderot</h3>
+                                <p class="book-author">Denis Diderot</p>
+                                <p class="book-price">150.00 €</p>
+                                <button class="borrow-btn" onclick="window.location.href='form.html'">Emprunter</button>
+                            </div>
+                        </div>
+                        <div class="book-card" role="listitem" data-title="Grands Atlas Historiques" data-author="Éditions Cartographiques">
+                            <img src="https://images.pexels.com/photos/1370295/pexels-photo-1370295.jpeg?w=220&h=293" alt="Couverture d'atlas historique" class="book-cover" loading="lazy" width="220" height="293">
+                            <div class="book-info">
+                                <h3 class="book-title">Grands Atlas Historiques</h3>
+                                <p class="book-author">Éditions Cartographiques</p>
+                                <p class="book-price">110.00 €</p>
+                                <button class="borrow-btn" onclick="window.location.href='form.html'">Emprunter</button>
+                            </div>
+                        </div>
+                        <a href="#" class="view-all-card" role="listitem">
+                            <svg class="view-all-icon" aria-hidden="true" width="40" height="40">
+                                <use href="#icon-book" fill="var(--bronze)"/>
+                            </svg>
+                            <div class="view-all-text">Voir Tout</div>
+                        </a>
+                    </div>
+                    <button class="scroll-nav next" aria-label="Suivant" tabindex="0">›</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="footer-container">
+            <div class="footer-brand">
+                <div class="logo">B</div>
+                <div>
+                    <strong class="brand-name">BiblioENSAMR</strong>
+                    <p class="brand-tagline">Lire, c'est multiplier ses vies.</p>
+                </div>
+            </div>
+
+            <nav class="footer-nav" aria-label="Liens de bas de page">
+                <a href="index.html">Home</a>
+                <a href="contact.html">Contact us</a>
+                <a href="license.html">License</a>
+            </nav>
+
+            <p class="footer-quote">
+                Literature is a quiet laboratory for the heart where empathy is tested, refined, and kept.
+                It leaves us calibrated for kindness.
+                <span class="ornament" aria-hidden="true"></span>
+            </p>
+
+            <div class="footer-meta">
+                <span id="copyright">© <span id="year"></span> BiblioENSAMR — Tous droits réservés.</span>
+            </div>
+        </div>
+    </footer>
+
+    <script src="auth-ui.js" defer></script>
+    <script>
+        (function() {
+            'use strict';
+
+            const menuToggle = document.getElementById('menuToggle');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const backdrop = document.getElementById('backdrop');
+            const drawerClose = document.getElementById('drawerClose');
+            const searchInput = document.getElementById('searchInput');
+
+            function toggleMenu() {
+                const isActive = menuToggle.classList.toggle('active');
+                mobileMenu.classList.toggle('active');
+                backdrop.classList.toggle('show');
+                document.body.classList.toggle('no-scroll');
+                menuToggle.setAttribute('aria-expanded', isActive);
+            }
+
+            menuToggle.addEventListener('click', toggleMenu);
+            drawerClose.addEventListener('click', toggleMenu);
+            backdrop.addEventListener('click', toggleMenu);
+
+            mobileMenu.querySelectorAll('a').forEach(function(link) {
+                link.addEventListener('click', function() {
+                    if (mobileMenu.classList.contains('active')) {
+                        toggleMenu();
+                    }
+                });
+            });
+
+            document.getElementById('year').textContent = new Date().getFullYear();
+
+            const bookCards = document.querySelectorAll('.book-card');
+
+            function filterBooks() {
+                const searchTerm = searchInput.value.toLowerCase().trim();
+
+                bookCards.forEach(function(card) {
+                    const title = card.dataset.title.toLowerCase();
+                    const author = card.dataset.author.toLowerCase();
+                    const isVisible = title.includes(searchTerm) || author.includes(searchTerm);
+
+                    if (isVisible) {
+                        card.classList.remove('hidden');
+                    } else {
+                        card.classList.add('hidden');
+                    }
+                });
+            }
+
+            searchInput.addEventListener('input', filterBooks);
+
+            searchInput.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    this.value = '';
+                    filterBooks();
+                    this.blur();
+                }
+            });
+
+            function initScrollNavigation() {
+                const containers = document.querySelectorAll('.books-container');
+
+                containers.forEach(function(container) {
+                    const scrollElement = container.querySelector('.books-scroll');
+                    const prevBtn = container.querySelector('.scroll-nav.prev');
+                    const nextBtn = container.querySelector('.scroll-nav.next');
+
+                    const scrollAmount = 240;
+
+                    function updateButtons() {
+                        const isAtStart = scrollElement.scrollLeft <= 0;
+                        const isAtEnd = scrollElement.scrollLeft >= scrollElement.scrollWidth - scrollElement.clientWidth - 10;
+
+                        prevBtn.disabled = isAtStart;
+                        nextBtn.disabled = isAtEnd;
+                    }
+
+                    prevBtn.addEventListener('click', function() {
+                        scrollElement.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+                    });
+
+                    nextBtn.addEventListener('click', function() {
+                        scrollElement.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+                    });
+
+                    scrollElement.addEventListener('keydown', function(e) {
+                        if (e.key === 'ArrowLeft') {
+                            e.preventDefault();
+                            scrollElement.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+                        } else if (e.key === 'ArrowRight') {
+                            e.preventDefault();
+                            scrollElement.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+                        }
+                    });
+
+                    scrollElement.addEventListener('scroll', updateButtons);
+
+                    updateButtons();
+
+                    window.addEventListener('resize', updateButtons);
+                });
+            }
+
+            if (window.innerWidth > 768) {
+                initScrollNavigation();
+            }
+
+            const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+            if (!prefersReducedMotion) {
+                const observerOptions = {
+                    threshold: 0.1,
+                    rootMargin: '0px 0px -50px 0px'
+                };
+
+                const observer = new IntersectionObserver(function(entries) {
+                    entries.forEach(function(entry) {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('visible');
+                        }
+                    });
+                }, observerOptions);
+
+                document.querySelectorAll('.section-container').forEach(function(container) {
+                    observer.observe(container);
+                });
+            } else {
+                document.querySelectorAll('.section-container').forEach(function(container) {
+                    container.classList.add('visible');
+                });
+            }
+
+            document.querySelectorAll('.borrow-btn').forEach(function(btn) {
+                btn.addEventListener('click', function() {
+                    const originalText = this.textContent;
+                    this.textContent = 'Emprunté ✓';
+                    this.style.background = 'var(--bronze)';
+                    this.style.color = 'var(--bg-dark)';
+                    this.disabled = true;
+
+                    setTimeout(function() {
+                        btn.textContent = originalText;
+                        btn.style.background = '';
+                        btn.style.color = '';
+                        btn.disabled = false;
+                    }, 2000);
+                });
+            });
+
+            setTimeout(function() {
+                const firstSection = document.querySelector('.section-container');
+                if (firstSection && !firstSection.classList.contains('visible')) {
+                    firstSection.classList.add('visible');
+                }
+            }, 100);
+
+            window.addEventListener('resize', function() {
+                if (window.innerWidth > 768) {
+                    initScrollNavigation();
+                }
+            });
+        })();
+    </script>
+</body>
+</html>

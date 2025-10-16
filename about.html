@@ -1,0 +1,1927 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>À propos — GDE · Great Debaters ENSAM Rabat</title>
+  <meta name="description" content="Découvrez GDE, le club d'éloquence et de débats de l'ENSAM Rabat. Développez votre art oratoire, votre esprit critique et rejoignez une communauté passionnée.">
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    /* ========================================
+       VARIABLES & RESET
+       ======================================== */
+    :root {
+      --bg-dark: #0f0e0d;
+      --panel: #1a1816;
+      --paper: #f2efe9;
+      --ink: #2a2723;
+      --ink-soft: #bfbab2;
+      --bronze: #b08b5b;
+      --bronze-light: #c9a876;
+      --bronze-dark: #8a6d47;
+      --stroke: #3a2f23;
+      --radius: 18px;
+      --shadow: 0 12px 34px rgba(0,0,0,.28);
+      --shadow-lg: 0 20px 60px rgba(0,0,0,.4);
+      --transition: all .22s cubic-bezier(.4,0,.2,1);
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-size: clamp(15px, 1vw + 14px, 17px);
+      line-height: 1.65;
+      color: var(--ink);
+      background: var(--bg-dark);
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    img, svg {
+      display: block;
+      max-width: 100%;
+      height: auto;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+      transition: var(--transition);
+    }
+
+    button {
+      font-family: inherit;
+      border: none;
+      cursor: pointer;
+      background: none;
+    }
+
+    /* ========================================
+       TYPOGRAPHY
+       ======================================== */
+    h1, h2, h3, h4, h5, h6 {
+      font-family: 'IM Fell English', Georgia, serif;
+      font-weight: 400;
+      line-height: 1.2;
+      color: var(--ink);
+    }
+
+    h1 {
+      font-size: clamp(2.5rem, 5vw, 4.5rem);
+      letter-spacing: -0.02em;
+    }
+
+    h2 {
+      font-size: clamp(2rem, 4vw, 3rem);
+      margin-bottom: 1.5rem;
+    }
+
+    h3 {
+      font-size: clamp(1.5rem, 2.5vw, 2rem);
+      margin-bottom: 1rem;
+    }
+
+    .small-caps {
+      font-variant: small-caps;
+      letter-spacing: 0.15em;
+      text-transform: lowercase;
+      font-weight: 600;
+    }
+
+    .drop-cap::first-letter {
+      float: left;
+      font-family: 'IM Fell English', Georgia, serif;
+      font-size: 4em;
+      line-height: 0.85;
+      margin: 0.1em 0.1em 0 0;
+      color: var(--bronze);
+    }
+
+    /* ========================================
+       LAYOUT UTILITIES
+       ======================================== */
+    .container {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 clamp(20px, 5vw, 60px);
+    }
+
+    .section {
+      padding: clamp(4rem, 10vw, 8rem) 0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--stroke) 50%, transparent);
+      opacity: 0.3;
+    }
+
+    /* ========================================
+       MASTHEAD (HEADER)
+       ======================================== */
+    .masthead {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      background: rgba(15, 14, 13, 0.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(176, 139, 91, 0.2);
+      padding: 1rem 0;
+      transition: var(--transition);
+    }
+
+    .masthead.scrolled {
+      box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+    }
+
+    .masthead-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 2rem;
+    }
+
+    .masthead-logo {
+      font-family: 'IM Fell English', Georgia, serif;
+      font-size: 1.5rem;
+      font-weight: 400;
+      color: var(--bronze);
+      white-space: nowrap;
+      z-index: 1001;
+    }
+
+    .masthead-nav {
+      display: flex;
+      gap: clamp(1rem, 3vw, 2.5rem);
+      list-style: none;
+    }
+
+    .masthead-nav a {
+      position: relative;
+      font-size: 0.95rem;
+      letter-spacing: 0.08em;
+      color: var(--paper);
+      padding: 0.5rem 0;
+    }
+
+    .masthead-nav a::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--bronze);
+      transition: width 0.3s ease;
+    }
+
+    .masthead-nav a:hover::after,
+    .masthead-nav a.active::after {
+      width: 100%;
+    }
+
+    /* Mobile Menu */
+    .menu-toggle {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      z-index: 1001;
+      padding: 8px;
+    }
+
+    .menu-toggle span {
+      width: 28px;
+      height: 3px;
+      background: var(--bronze);
+      border-radius: 2px;
+      transition: var(--transition);
+    }
+
+    .menu-toggle.active span:nth-child(1) {
+      transform: rotate(45deg) translate(8px, 8px);
+    }
+
+    .menu-toggle.active span:nth-child(2) {
+      opacity: 0;
+    }
+
+    .menu-toggle.active span:nth-child(3) {
+      transform: rotate(-45deg) translate(7px, -7px);
+    }
+
+    @media (max-width: 768px) {
+      .menu-toggle {
+        display: flex;
+      }
+
+      .masthead-nav {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 280px;
+        height: 100vh;
+        background: var(--panel);
+        flex-direction: column;
+        padding: 6rem 2rem 2rem;
+        gap: 0;
+        transition: right 0.4s cubic-bezier(.4,0,.2,1);
+        box-shadow: -10px 0 40px rgba(0,0,0,0.5);
+      }
+
+      .masthead-nav.active {
+        right: 0;
+      }
+
+      .masthead-nav li {
+        border-bottom: 1px solid rgba(176, 139, 91, 0.2);
+      }
+
+      .masthead-nav a {
+        display: block;
+        padding: 1.25rem 0;
+        font-size: 1.1rem;
+      }
+    }
+
+    /* ========================================
+       HERO
+       ======================================== */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      background: var(--bg-dark);
+      color: var(--paper);
+      overflow: hidden;
+      margin-top: 70px;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+    }
+
+    .hero-bg img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.25;
+      filter: grayscale(50%) sepia(20%);
+    }
+
+    .hero-bg::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at center, transparent 0%, var(--bg-dark) 100%);
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 900px;
+      padding: 3rem clamp(20px, 5vw, 60px);
+    }
+
+    .hero h1 {
+      color: var(--bronze);
+      margin-bottom: 1.5rem;
+      text-shadow: 0 4px 20px rgba(0,0,0,0.8);
+      animation: fadeInUp 1s ease;
+    }
+
+    .hero-strapline {
+      font-family: 'IM Fell English', Georgia, serif;
+      font-size: clamp(1.2rem, 2vw, 1.75rem);
+      letter-spacing: 0.25em;
+      color: var(--bronze-light);
+      margin-bottom: 2rem;
+      animation: fadeInUp 1s ease 0.2s both;
+    }
+
+    .hero-stamp {
+      position: absolute;
+      top: 15%;
+      right: 8%;
+      opacity: 0.1;
+      mix-blend-mode: screen;
+      width: clamp(120px, 15vw, 200px);
+      height: auto;
+      transform: rotate(12deg);
+      pointer-events: none;
+      animation: float 6s ease-in-out infinite;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(40px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes float {
+      0%, 100% { transform: rotate(12deg) translateY(0); }
+      50% { transform: rotate(12deg) translateY(-20px); }
+    }
+
+    @media (max-width: 768px) {
+      .hero {
+        min-height: 80vh;
+      }
+      .hero-stamp {
+        top: 10%;
+        right: 5%;
+      }
+    }
+
+    /* ========================================
+       BUTTONS
+       ======================================== */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 1rem 2.5rem;
+      border-radius: 10px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+      transition: var(--transition);
+      min-height: 44px;
+      min-width: 44px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.2);
+      transform: translate(-50%, -50%);
+      transition: width 0.6s, height 0.6s;
+    }
+
+    .btn:hover::before {
+      width: 300px;
+      height: 300px;
+    }
+
+    .btn:focus-visible {
+      outline: 2px solid var(--bronze);
+      outline-offset: 3px;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--bronze), var(--bronze-dark));
+      color: var(--paper);
+      box-shadow: 0 4px 15px rgba(176,139,91,0.4);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(176,139,91,0.5);
+    }
+
+    .btn-primary:active {
+      transform: translateY(0);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--bronze);
+      border: 2px solid var(--bronze);
+    }
+
+    .btn-secondary:hover {
+      background: var(--bronze);
+      color: var(--bg-dark);
+    }
+
+    /* ========================================
+       CARDS
+       ======================================== */
+    .card {
+      background: linear-gradient(135deg, var(--panel) 0%, #252220 100%);
+      border: 1px solid rgba(176, 139, 91, 0.3);
+      border-radius: var(--radius);
+      padding: clamp(2rem, 4vw, 3rem);
+      box-shadow: var(--shadow);
+      transition: var(--transition);
+      height: 100%;
+      position: relative;
+      overflow: hidden;
+      backdrop-filter: blur(10px);
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(176,139,91,0.1) 0%, transparent 70%);
+      opacity: 0;
+      transition: opacity 0.6s ease;
+    }
+
+    .card:hover::before {
+      opacity: 1;
+    }
+
+    .card:hover {
+      transform: translateY(-8px) rotateX(2deg);
+      box-shadow: var(--shadow-lg);
+      border-color: var(--bronze);
+    }
+
+    .card-icon {
+      width: 56px;
+      height: 56px;
+      margin-bottom: 1.5rem;
+      color: var(--bronze);
+      filter: drop-shadow(0 4px 10px rgba(176,139,91,0.3));
+      transition: var(--transition);
+    }
+
+    .card:hover .card-icon {
+      transform: scale(1.1) rotateY(10deg);
+      color: var(--bronze-light);
+    }
+
+    .card h3 {
+      font-size: 1.6rem;
+      margin-bottom: 1rem;
+      color: var(--paper);
+      transition: var(--transition);
+    }
+
+    .card:hover h3 {
+      color: var(--bronze-light);
+    }
+
+    .card p {
+      color: var(--ink-soft);
+      line-height: 1.8;
+    }
+
+    /* ========================================
+       GRID
+       ======================================== */
+    .grid {
+      display: grid;
+      gap: clamp(2rem, 4vw, 3rem);
+    }
+
+    .grid-2 {
+      grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr));
+    }
+
+    .grid-4 {
+      grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr));
+    }
+
+    /* Mobile Horizontal Scroll for Cards */
+    @media (max-width: 768px) {
+      .mobile-scroll {
+        display: flex;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        gap: 1.5rem;
+        padding-bottom: 1rem;
+        -webkit-overflow-scrolling: touch;
+      }
+
+      .mobile-scroll::-webkit-scrollbar {
+        height: 8px;
+      }
+
+      .mobile-scroll::-webkit-scrollbar-track {
+        background: var(--panel);
+        border-radius: 10px;
+      }
+
+      .mobile-scroll::-webkit-scrollbar-thumb {
+        background: var(--bronze);
+        border-radius: 10px;
+      }
+
+      .mobile-scroll .card {
+        min-width: 85vw;
+        scroll-snap-align: center;
+      }
+    }
+
+    /* ========================================
+       CONTENT SECTION
+       ======================================== */
+    .content-section {
+      background: linear-gradient(180deg, var(--bg-dark) 0%, var(--panel) 50%, var(--bg-dark) 100%);
+      color: var(--paper);
+    }
+
+    .content-wrapper {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+
+    @media (max-width: 968px) {
+      .content-wrapper {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+    }
+
+    .content-image {
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow-lg);
+      position: relative;
+      aspect-ratio: 4/3;
+    }
+
+    .content-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.6s ease;
+    }
+
+    .content-image:hover img {
+      transform: scale(1.05);
+    }
+
+    .content-text p {
+      margin-bottom: 1.5rem;
+      color: var(--ink-soft);
+      line-height: 1.8;
+    }
+
+    /* ========================================
+       PULL QUOTE
+       ======================================== */
+    .pull-quote {
+      margin: 4rem 0;
+      padding: 3rem clamp(2rem, 5vw, 4rem);
+      background: linear-gradient(135deg, rgba(176,139,91,0.1), rgba(176,139,91,0.05));
+      border-left: 4px solid var(--bronze);
+      border-radius: 12px;
+      font-family: 'IM Fell English', Georgia, serif;
+      font-size: clamp(1.25rem, 2vw, 1.6rem);
+      font-style: italic;
+      line-height: 1.7;
+      text-align: center;
+      position: relative;
+      color: var(--paper);
+      backdrop-filter: blur(5px);
+    }
+
+    .pull-quote::before {
+      content: '"';
+      font-size: 6rem;
+      color: var(--bronze);
+      opacity: 0.2;
+      position: absolute;
+      top: -1rem;
+      left: 1rem;
+      font-style: normal;
+    }
+
+    /* ========================================
+       FORMATS / EDITORIAL LIST
+       ======================================== */
+    .format-list {
+      list-style: none;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .format-item {
+      padding: 2rem;
+      margin-bottom: 1.5rem;
+      background: linear-gradient(135deg, var(--panel) 0%, rgba(26,24,22,0.5) 100%);
+      border-left: 3px solid var(--bronze);
+      border-radius: 12px;
+      display: flex;
+      align-items: flex-start;
+      gap: 1.5rem;
+      transition: var(--transition);
+    }
+
+    .format-item:hover {
+      transform: translateX(8px);
+      box-shadow: var(--shadow);
+      border-left-width: 5px;
+    }
+
+    .format-ornament {
+      color: var(--bronze);
+      font-size: 2rem;
+      flex-shrink: 0;
+      margin-top: 0.25rem;
+    }
+
+    .format-content h4 {
+      font-size: 1.4rem;
+      margin-bottom: 0.75rem;
+      color: var(--bronze-light);
+    }
+
+    .format-content p {
+      color: var(--ink-soft);
+      line-height: 1.7;
+    }
+
+    /* ========================================
+       VALUES / CHECKLIST
+       ======================================== */
+    .values-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
+      gap: 2.5rem;
+    }
+
+    .value-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 1.5rem;
+      padding: 2rem;
+      background: linear-gradient(135deg, rgba(176,139,91,0.08), transparent);
+      border-radius: 12px;
+      transition: var(--transition);
+    }
+
+    .value-item:hover {
+      background: linear-gradient(135deg, rgba(176,139,91,0.15), transparent);
+      transform: translateY(-4px);
+    }
+
+    .value-icon {
+      width: 48px;
+      height: 48px;
+      flex-shrink: 0;
+      color: var(--bronze);
+      padding: 10px;
+      background: rgba(176,139,91,0.1);
+      border-radius: 10px;
+    }
+
+    .value-content h4 {
+      font-size: 1.35rem;
+      margin-bottom: 0.75rem;
+      color: var(--bronze-light);
+    }
+
+    .value-content p {
+      color: var(--ink-soft);
+      line-height: 1.7;
+    }
+
+    /* ========================================
+       TIMELINE
+       ======================================== */
+    .timeline {
+      position: relative;
+      overflow-x: auto;
+      padding: 2rem 0;
+    }
+
+    .timeline-track {
+      display: flex;
+      gap: 2.5rem;
+      min-width: min-content;
+      padding-bottom: 1.5rem;
+    }
+
+    .timeline-item {
+      flex-shrink: 0;
+      width: 280px;
+      position: relative;
+      padding: 2rem;
+      background: linear-gradient(135deg, var(--panel), rgba(26,24,22,0.8));
+      border-radius: var(--radius);
+      border: 1px solid rgba(176,139,91,0.3);
+      transition: var(--transition);
+    }
+
+    .timeline-item:hover {
+      transform: translateY(-8px) scale(1.02);
+      box-shadow: var(--shadow-lg);
+      border-color: var(--bronze);
+    }
+
+    .timeline-badge {
+      display: inline-block;
+      padding: 0.6rem 1.25rem;
+      background: linear-gradient(135deg, var(--bronze), var(--bronze-dark));
+      color: var(--paper);
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      margin-bottom: 1.25rem;
+      box-shadow: 0 4px 12px rgba(176,139,91,0.4);
+      letter-spacing: 0.05em;
+    }
+
+    .timeline-date {
+      font-family: 'IM Fell English', Georgia, serif;
+      font-size: 1.6rem;
+      color: var(--bronze-light);
+      margin-bottom: 0.75rem;
+    }
+
+    .timeline-desc {
+      color: var(--ink-soft);
+      font-size: 0.95rem;
+      line-height: 1.7;
+    }
+
+    /* ========================================
+       TEAM
+       ======================================== */
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(min(240px, 100%), 1fr));
+      gap: 2.5rem;
+    }
+
+    .team-card {
+      text-align: center;
+      padding: 2.5rem 2rem;
+      background: linear-gradient(135deg, var(--panel), rgba(26,24,22,0.8));
+      border: 1px solid rgba(176,139,91,0.3);
+      border-radius: var(--radius);
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .team-card::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(176,139,91,0.15) 0%, transparent 60%);
+      opacity: 0;
+      transition: opacity 0.5s ease;
+    }
+
+    .team-card:hover::before {
+      opacity: 1;
+    }
+
+    .team-card:hover {
+      transform: translateY(-8px) rotateY(5deg);
+      box-shadow: var(--shadow-lg);
+      border-color: var(--bronze);
+    }
+
+    .team-avatar {
+      width: 110px;
+      height: 110px;
+      margin: 0 auto 1.5rem;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--bronze), var(--bronze-dark));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'IM Fell English', Georgia, serif;
+      font-size: 2.2rem;
+      color: var(--paper);
+      border: 4px solid rgba(176,139,91,0.3);
+      overflow: hidden;
+      box-shadow: 0 8px 20px rgba(176,139,91,0.3);
+      transition: var(--transition);
+    }
+
+    .team-card:hover .team-avatar {
+      transform: scale(1.08) rotateZ(5deg);
+      border-color: var(--bronze-light);
+    }
+
+    .team-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .team-name {
+      font-size: 1.3rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      color: var(--paper);
+    }
+
+    .team-role {
+      font-size: 0.95rem;
+      color: var(--bronze-light);
+      margin-bottom: 1.25rem;
+      font-style: italic;
+    }
+
+    .team-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--bronze);
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: var(--transition);
+    }
+
+    .team-link:hover {
+      color: var(--bronze-light);
+      transform: translateX(4px);
+    }
+
+    /* ========================================
+       STATS COUNTERS
+       ======================================== */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(200px, 100%), 1fr));
+      gap: 3rem;
+    }
+
+    .stat-item {
+      text-align: center;
+      padding: 2rem;
+      background: linear-gradient(135deg, rgba(176,139,91,0.1), transparent);
+      border-radius: var(--radius);
+      transition: var(--transition);
+    }
+
+    .stat-item:hover {
+      background: linear-gradient(135deg, rgba(176,139,91,0.2), transparent);
+      transform: translateY(-5px);
+    }
+
+    .stat-number {
+      font-family: 'IM Fell English', Georgia, serif;
+      font-size: clamp(3.5rem, 7vw, 6rem);
+      color: var(--bronze);
+      display: block;
+      margin-bottom: 0.75rem;
+      line-height: 1;
+      text-shadow: 0 4px 15px rgba(176,139,91,0.4);
+    }
+
+    .stat-label {
+      font-size: 1rem;
+      color: var(--ink-soft);
+      letter-spacing: 0.08em;
+      font-weight: 500;
+    }
+
+    /* ========================================
+       PARTNERS
+       ======================================== */
+    .partners-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      gap: clamp(2rem, 5vw, 4rem);
+    }
+
+    .partner-logo {
+      width: clamp(120px, 14vw, 170px);
+      height: clamp(70px, 9vw, 100px);
+      background: linear-gradient(135deg, var(--panel), rgba(26,24,22,0.8));
+      border: 1px solid rgba(176,139,91,0.3);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.25rem;
+      opacity: 0.7;
+      transition: var(--transition);
+      color: var(--ink-soft);
+      font-size: 0.8rem;
+      text-align: center;
+      font-weight: 600;
+    }
+
+    .partner-logo:hover {
+      opacity: 1;
+      transform: scale(1.08);
+      border-color: var(--bronze);
+      box-shadow: 0 8px 20px rgba(176,139,91,0.3);
+    }
+
+    /* ========================================
+       FAQ ACCORDION
+       ======================================== */
+    .faq-list {
+      max-width: 850px;
+      margin: 0 auto;
+    }
+
+    .faq-item {
+      background: linear-gradient(135deg, var(--panel), rgba(26,24,22,0.8));
+      border: 1px solid rgba(176,139,91,0.2);
+      border-radius: 12px;
+      margin-bottom: 1.5rem;
+      overflow: hidden;
+      transition: var(--transition);
+    }
+
+    .faq-item:hover {
+      border-color: var(--bronze);
+      box-shadow: 0 4px 15px rgba(176,139,91,0.2);
+    }
+
+    .faq-question {
+      width: 100%;
+      text-align: left;
+      padding: 1.75rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1.5rem;
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: var(--paper);
+      cursor: pointer;
+      transition: var(--transition);
+      min-height: 44px;
+    }
+
+    .faq-question:hover {
+      color: var(--bronze-light);
+    }
+
+    .faq-question:focus-visible {
+      outline: 2px solid var(--bronze);
+      outline-offset: 3px;
+    }
+
+    .faq-icon {
+      flex-shrink: 0;
+      width: 28px;
+      height: 28px;
+      color: var(--bronze);
+      transition: transform 0.3s ease;
+    }
+
+    .faq-item.open .faq-icon {
+      transform: rotate(180deg);
+    }
+
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease, padding 0.4s ease;
+      color: var(--ink-soft);
+      line-height: 1.8;
+      padding: 0 2rem;
+    }
+
+    .faq-item.open .faq-answer {
+      max-height: 600px;
+      padding: 0 2rem 2rem;
+    }
+
+    /* ========================================
+       CTA SECTION
+       ======================================== */
+    .cta-section {
+      text-align: center;
+      padding: 5rem clamp(20px, 5vw, 60px);
+      background: linear-gradient(135deg, rgba(176,139,91,0.15), rgba(176,139,91,0.05));
+      border-radius: var(--radius);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta-section::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><rect width="100" height="100" fill="none"/><path d="M0 50 Q25 25 50 50 T100 50" stroke="rgba(176,139,91,0.1)" fill="none"/></svg>');
+      opacity: 0.3;
+    }
+
+    .cta-section h2 {
+      color: var(--bronze-light);
+      margin-bottom: 1.5rem;
+      position: relative;
+    }
+
+    .cta-section p {
+      font-size: 1.2rem;
+      color: var(--ink-soft);
+      margin-bottom: 2.5rem;
+      max-width: 650px;
+      margin-left: auto;
+      margin-right: auto;
+      line-height: 1.8;
+      position: relative;
+    }
+
+    .cta-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      justify-content: center;
+      position: relative;
+    }
+
+    /* ========================================
+       FOOTER
+       ======================================== */
+    .footer {
+      background: var(--bg-dark);
+      color: var(--paper);
+      position: relative;
+      border-top: 1px solid rgba(176,139,91,0.3);
+    }
+
+    .footer-content {
+      padding: 4rem 0 2rem;
+      text-align: center;
+    }
+
+    .footer-baseline {
+      font-family: 'IM Fell English', Georgia, serif;
+      font-size: clamp(1.1rem, 2.5vw, 1.8rem);
+      letter-spacing: 0.35em;
+      color: var(--bronze);
+      margin-bottom: 2.5rem;
+    }
+
+    .footer-links {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 2.5rem;
+      list-style: none;
+      margin-bottom: 2.5rem;
+    }
+
+    .footer-links a {
+      color: var(--ink-soft);
+      font-size: 0.95rem;
+      transition: var(--transition);
+      position: relative;
+    }
+
+    .footer-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 1px;
+      background: var(--bronze);
+      transition: width 0.3s ease;
+    }
+
+    .footer-links a:hover {
+      color: var(--bronze-light);
+    }
+
+    .footer-links a:hover::after {
+      width: 100%;
+    }
+
+    .footer-copy {
+      font-size: 0.9rem;
+      color: var(--ink-soft);
+      padding-top: 2rem;
+      border-top: 1px dotted rgba(176,139,91,0.2);
+    }
+
+    /* ========================================
+       REVEAL ANIMATIONS
+       ======================================== */
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    .reveal.revealed {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .reveal-scale {
+      opacity: 0;
+      transform: scale(0.9);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    .reveal-scale.revealed {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    /* ========================================
+       SVG SPRITE (INLINE)
+       ======================================== */
+    .svg-sprite {
+      position: absolute;
+      width: 0;
+      height: 0;
+      overflow: hidden;
+    }
+
+    /* ========================================
+       SECTION DIVIDERS
+       ======================================== */
+    .section-divider {
+      height: 60px;
+      background: linear-gradient(to bottom, transparent, rgba(176,139,91,0.05), transparent);
+      position: relative;
+    }
+
+    .section-divider::after {
+      content: '❧';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 1.8rem;
+      color: var(--bronze);
+      opacity: 0.6;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- SVG SPRITE -->
+  <div class="svg-sprite">
+    <svg xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <symbol id="icon-feather" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M20.24 12.24a6 6 0 0 0-8.49-8.49L5 10.5V19h8.5z"/>
+          <line x1="16" y1="8" x2="2" y2="22"/>
+          <line x1="17.5" y1="15" x2="9" y2="15"/>
+        </symbol>
+        
+        <symbol id="icon-gavel" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="m14 13-7.5 7.5c-.83.83-2.17.83-3 0 0 0 0 0 0 0a2.12 2.12 0 0 1 0-3L11 10"/>
+          <path d="m16 16 6-6"/>
+          <path d="m8 8 6-6"/>
+          <path d="m9 7 8 8"/>
+          <path d="m21 11-8-8"/>
+        </symbol>
+        
+        <symbol id="icon-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"/>
+          <polyline points="12 6 12 12 16 14"/>
+        </symbol>
+        
+        <symbol id="icon-book" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+          <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+        </symbol>
+        
+        <symbol id="icon-mic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/>
+          <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+          <line x1="12" x2="12" y1="19" y2="22"/>
+        </symbol>
+        
+        <symbol id="icon-users" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+          <circle cx="9" cy="7" r="4"/>
+          <path d="M22 21v-2a4 4 0 0 0-3-3.87"/>
+          <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+        </symbol>
+        
+        <symbol id="icon-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="20 6 9 17 4 12"/>
+        </symbol>
+        
+        <symbol id="icon-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="6 9 12 15 18 9"/>
+        </symbol>
+        
+        <symbol id="stamp-declassified" viewBox="0 0 200 200">
+          <circle cx="100" cy="100" r="80" fill="none" stroke="currentColor" stroke-width="4"/>
+          <circle cx="100" cy="100" r="70" fill="none" stroke="currentColor" stroke-width="2"/>
+          <text x="100" y="95" text-anchor="middle" font-size="24" font-weight="bold" fill="currentColor">DÉCLASSIFIÉ</text>
+          <text x="100" y="115" text-anchor="middle" font-size="14" fill="currentColor">ENSAM RABAT</text>
+        </symbol>
+      </defs>
+    </svg>
+  </div>
+
+  <!-- MASTHEAD -->
+  <header class="masthead">
+    <div class="container">
+      <div class="masthead-inner">
+        <a href="index.html" class="masthead-logo">GDE</a>
+        
+        <div class="menu-toggle" aria-label="Toggle menu" role="button" tabindex="0">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+
+        <nav>
+          <ul class="masthead-nav small-caps">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html" class="active">About</a></li>
+            <li><a href="join.html">Join</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-bg">
+      <img src="https://images.pexels.com/photos/5324927/pexels-photo-5324927.jpeg?auto=compress&cs=tinysrgb&w=1920" alt="Debate scene" loading="eager">
+    </div>
+    <svg class="hero-stamp" aria-hidden="true">
+      <use href="#stamp-declassified"/>
+    </svg>
+    <div class="hero-content">
+      <h1>About GDE — Great Debaters ENSAM Rabat</h1>
+      <p class="hero-strapline">Speak • Write • Revolutionize</p>
+    </div>
+  </section>
+
+  <!-- QUI SOMMES-NOUS -->
+  <section id="qui-nous-sommes" class="section content-section">
+    <div class="container">
+      <div class="content-wrapper">
+        <div class="content-image reveal-scale">
+          <img src="https://images.pexels.com/photos/3184398/pexels-photo-3184398.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Discussion de groupe" loading="lazy">
+        </div>
+        
+        <div class="content-text">
+          <h2 class="reveal" style="color: var(--bronze-light);">Qui sommes-nous ?</h2>
+          
+          <p class="drop-cap reveal">
+            Great Debaters ENSAM (GDE) est le club d'éloquence et de débats de l'École Nationale Supérieure des Arts et Métiers de Rabat. Fondé sur la conviction que l'art oratoire est un pilier de la pensée critique et du leadership, nous créons un espace où la parole se construit, s'affine et s'affirme.
+          </p>
+          
+          <p class="reveal">
+            Notre mission est simple mais ambitieuse : développer l'éloquence, l'écoute active et la capacité d'analyse de nos membres. À travers des débats structurés, des tables rondes thématiques et des ateliers pratiques, nous formons une communauté intellectuelle soudée.
+          </p>
+          
+          <p class="reveal">
+            Au-delà de la performance oratoire, nous valorisons l'entraide académique, l'ouverture d'esprit et l'audace intellectuelle. Rejoindre GDE, c'est accepter de se remettre en question, d'explorer de nouvelles perspectives et de grandir aux côtés d'esprits passionnés.
+          </p>
+        </div>
+      </div>
+
+      <blockquote class="pull-quote reveal">
+        La parole est l'art de transformer la pensée en action, l'argument en conviction, le silence en révolution.
+      </blockquote>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- CE QUE NOUS FAISONS -->
+  <section id="ce-que-nous-faisons" class="section" style="background: var(--bg-dark);">
+    <div class="container">
+      <h2 class="reveal" style="color: var(--bronze-light); text-align: center; margin-bottom: 3rem;">Ce que nous faisons</h2>
+      
+      <div class="grid grid-2 mobile-scroll">
+        
+        <div class="card reveal">
+          <svg class="card-icon" aria-hidden="true"><use href="#icon-gavel"/></svg>
+          <h3>Débats & Tournois</h3>
+          <p>
+            Nous organisons des débats formels selon le format Oxford, où deux équipes s'affrontent sur des motions soigneusement choisies. Chaque débat est une opportunité de développer l'art de la persuasion, la gestion du temps de parole et la réfutation argumentée. Nous participons également à des tournois inter-écoles et inter-universitaires.
+          </p>
+        </div>
+
+        <div class="card reveal">
+          <svg class="card-icon" aria-hidden="true"><use href="#icon-users"/></svg>
+          <h3>Tables Rondes</h3>
+          <p>
+            Nos tables rondes thématiques abordent l'actualité, les questions de société, les enjeux du campus et les débats philosophiques. Dans un cadre ouvert et respectueux, chacun peut exprimer son point de vue, confronter ses idées et s'enrichir des perspectives des autres.
+          </p>
+        </div>
+
+        <div class="card reveal">
+          <svg class="card-icon" aria-hidden="true"><use href="#icon-feather"/></svg>
+          <h3>Ateliers</h3>
+          <p>
+            Nos ateliers pratiques couvrent l'éloquence, la rhétorique, l'écriture argumentative et la prise de parole en public. Encadrés par des membres expérimentés ou des invités, ces sessions permettent de travailler la structure du discours, la gestuelle, la voix et la confiance en soi.
+          </p>
+        </div>
+
+        <div class="card reveal">
+          <svg class="card-icon" aria-hidden="true"><use href="#icon-mic"/></svg>
+          <h3>Événements Publics</h3>
+          <p>
+            Tout au long de l'année, nous organisons des événements phares : l'Assemblée Générale annuelle, le "GDE Newspaper" qui diffuse nos analyses et chroniques, des conférences avec des personnalités inspirantes, et des soirées de débats ouverts au public.
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- FORMATS -->
+  <section id="formats" class="section" style="background: linear-gradient(180deg, var(--bg-dark) 0%, var(--panel) 100%);">
+    <div class="container">
+      <h2 class="reveal" style="color: var(--bronze-light); text-align: center;">Nos Formats</h2>
+      
+      <ul class="format-list">
+        
+        <li class="format-item reveal">
+          <span class="format-ornament" aria-hidden="true">❧</span>
+          <div class="format-content">
+            <h4>Oxford Debate</h4>
+            <p>
+              Format académique où deux équipes défendent des positions opposées sur une motion précise. Structure rigoureuse, temps de parole chronométrés, réfutations croisées. L'objectif : convaincre un jury ou un public par la force des arguments et la qualité de la rhétorique.
+            </p>
+          </div>
+        </li>
+
+        <li class="format-item reveal">
+          <span class="format-ornament" aria-hidden="true">❧</span>
+          <div class="format-content">
+            <h4>Table Ronde</h4>
+            <p>
+              Discussion ouverte et modérée autour d'un thème d'actualité ou de société. Chaque participant partage son analyse, pose des questions et répond aux interpellations. Le format privilégie la profondeur de la réflexion et le dialogue constructif.
+            </p>
+          </div>
+        </li>
+
+        <li class="format-item reveal">
+          <span class="format-ornament" aria-hidden="true">❧</span>
+          <div class="format-content">
+            <h4>Pitch & Q/A</h4>
+            <p>
+              Format court et dynamique où chaque intervenant présente une idée, un projet ou une thèse en quelques minutes, suivi d'une séance de questions-réponses. Idéal pour travailler la clarté, la concision et la capacité à répondre sous pression.
+            </p>
+          </div>
+        </li>
+
+        <li class="format-item reveal">
+          <span class="format-ornament" aria-hidden="true">❧</span>
+          <div class="format-content">
+            <h4>Club de Lecture</h4>
+            <p>
+              Rencontres régulières autour d'œuvres littéraires, essais philosophiques ou articles de fond. Nous partageons nos lectures, débattons des idées présentées et enrichissons notre culture générale. La BiblioENSAMR met à disposition une sélection d'ouvrages accessibles aux membres.
+            </p>
+          </div>
+        </li>
+
+      </ul>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- VALEURS -->
+  <section id="valeurs" class="section" style="background: var(--bg-dark);">
+    <div class="container">
+      <h2 class="reveal" style="color: var(--bronze-light); text-align: center;">Nos Valeurs</h2>
+      
+      <div class="values-grid">
+        
+        <div class="value-item reveal">
+          <svg class="value-icon" aria-hidden="true"><use href="#icon-check"/></svg>
+          <div class="value-content">
+            <h4>Respect</h4>
+            <p>
+              Nous croyons que le débat ne peut exister sans écoute et bienveillance. Chaque membre est encouragé à exprimer ses convictions tout en respectant celles des autres. Le respect mutuel est la pierre angulaire de notre communauté.
+            </p>
+          </div>
+        </div>
+
+        <div class="value-item reveal">
+          <svg class="value-icon" aria-hidden="true"><use href="#icon-check"/></svg>
+          <div class="value-content">
+            <h4>Esprit Critique</h4>
+            <p>
+              Nous valorisons la remise en question, l'analyse rigoureuse et la capacité à interroger les évidences. L'esprit critique est au cœur de toutes nos activités, car il permet de dépasser les opinions préconçues et de construire des arguments solides.
+            </p>
+          </div>
+        </div>
+
+        <div class="value-item reveal">
+          <svg class="value-icon" aria-hidden="true"><use href="#icon-check"/></svg>
+          <div class="value-content">
+            <h4>Inclusion</h4>
+            <p>
+              GDE est un espace ouvert à tous, quels que soient le parcours, le niveau ou les convictions. Nous encourageons la diversité des voix et des perspectives, car c'est dans la pluralité que naissent les débats les plus riches et les plus stimulants.
+            </p>
+          </div>
+        </div>
+
+        <div class="value-item reveal">
+          <svg class="value-icon" aria-hidden="true"><use href="#icon-check"/></svg>
+          <div class="value-content">
+            <h4>Excellence</h4>
+            <p>
+              Nous visons l'excellence dans la préparation, l'exécution et l'évaluation de nos débats et activités. Chaque membre est invité à se dépasser, à perfectionner ses compétences et à contribuer à l'élévation collective du niveau du club.
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- TEMPS FORTS (TIMELINE) -->
+  <section id="temps-forts" class="section" style="background: linear-gradient(180deg, var(--panel) 0%, var(--bg-dark) 100%);">
+    <div class="container">
+      <h2 class="reveal" style="color: var(--bronze-light); text-align: center; margin-bottom: 3rem;">Temps Forts</h2>
+      
+      <div class="timeline reveal">
+        <div class="timeline-track">
+          
+          <div class="timeline-item">
+            <span class="timeline-badge">Issue No. 1</span>
+            <div class="timeline-date">Sept. 2024</div>
+            <p class="timeline-desc">Lancement officiel du club et première AG. Présentation de la vision et élection du bureau.</p>
+          </div>
+
+          <div class="timeline-item">
+            <span class="timeline-badge">Vol. I</span>
+            <div class="timeline-date">Oct. 2024</div>
+            <p class="timeline-desc">Premier débat Oxford sur le thème "L'intelligence artificielle menace-t-elle l'emploi ?"</p>
+          </div>
+
+          <div class="timeline-item">
+            <span class="timeline-badge">Issue No. 2</span>
+            <div class="timeline-date">Nov. 2024</div>
+            <p class="timeline-desc">Table ronde sur les enjeux climatiques et participation au tournoi inter-écoles de Casablanca.</p>
+          </div>
+
+          <div class="timeline-item">
+            <span class="timeline-badge">Vol. II</span>
+            <div class="timeline-date">Janv. 2025</div>
+            <p class="timeline-desc">Lancement de la BiblioENSAMR et première édition du GDE Newspaper.</p>
+          </div>
+
+          <div class="timeline-item">
+            <span class="timeline-badge">Issue No. 3</span>
+            <div class="timeline-date">Mars 2025</div>
+            <p class="timeline-desc">Conférence avec un ancien ministre sur le leadership et l'éloquence politique.</p>
+          </div>
+
+          <div class="timeline-item">
+            <span class="timeline-badge">Vol. III</span>
+            <div class="timeline-date">Mai 2025</div>
+            <p class="timeline-desc">Grande soirée de débats ouverts au public et remise des certificats aux membres actifs.</p>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- ÉQUIPE -->
+  <section id="equipe" class="section" style="background: var(--bg-dark);">
+    <div class="container">
+      <h2 class="reveal" style="color: var(--bronze-light); text-align: center;">Bureau 2025/2026 — The New Vanguard</h2>
+      
+      <div class="team-grid">
+        
+        <div class="team-card reveal">
+          <div class="team-avatar">AS</div>
+          <div class="team-name">Amina Saïdi</div>
+          <div class="team-role">Présidente</div>
+          <a href="#" class="team-link" aria-label="Profil LinkedIn d'Amina Saïdi">
+            LinkedIn →
+          </a>
+        </div>
+
+        <div class="team-card reveal">
+          <div class="team-avatar">MK</div>
+          <div class="team-name">Mehdi Kabbaj</div>
+          <div class="team-role">Vice-Président</div>
+          <a href="#" class="team-link" aria-label="Profil LinkedIn de Mehdi Kabbaj">
+            LinkedIn →
+          </a>
+        </div>
+
+        <div class="team-card reveal">
+          <div class="team-avatar">SE</div>
+          <div class="team-name">Sofia El Amrani</div>
+          <div class="team-role">Secrétaire Générale</div>
+          <a href="#" class="team-link" aria-label="Profil LinkedIn de Sofia El Amrani">
+            LinkedIn →
+          </a>
+        </div>
+
+        <div class="team-card reveal">
+          <div class="team-avatar">YB</div>
+          <div class="team-name">Youssef Benali</div>
+          <div class="team-role">Trésorier</div>
+          <a href="#" class="team-link" aria-label="Profil LinkedIn de Youssef Benali">
+            LinkedIn →
+          </a>
+        </div>
+
+        <div class="team-card reveal">
+          <div class="team-avatar">LM</div>
+          <div class="team-avatar">
+            <img src="https://images.pexels.com/photos/3769021/pexels-photo-3769021.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Leila Mansouri">
+          </div>
+          <div class="team-name">Leila Mansouri</div>
+          <div class="team-role">Responsable Communication</div>
+          <a href="#" class="team-link" aria-label="Profil LinkedIn de Leila Mansouri">
+            LinkedIn →
+          </a>
+        </div>
+
+        <div class="team-card reveal">
+          <div class="team-avatar">RZ</div>
+          <div class="team-name">Rachid Ziani</div>
+          <div class="team-role">Responsable Événements</div>
+          <a href="#" class="team-link" aria-label="Profil LinkedIn de Rachid Ziani">
+            LinkedIn →
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- CHIFFRES -->
+  <section id="chiffres" class="section" style="background: linear-gradient(135deg, var(--panel) 0%, var(--bg-dark) 100%);">
+    <div class="container">
+      <div class="stats-grid">
+        
+        <div class="stat-item reveal">
+          <span class="stat-number" data-count="120">0</span>
+          <div class="stat-label small-caps">Membres Actifs</div>
+        </div>
+
+        <div class="stat-item reveal">
+          <span class="stat-number" data-count="24">0</span>
+          <div class="stat-label small-caps">Événements / An</div>
+        </div>
+
+        <div class="stat-item reveal">
+          <span class="stat-number" data-count="18">0</span>
+          <div class="stat-label small-caps">Invités d'Honneur</div>
+        </div>
+
+        <div class="stat-item reveal">
+          <span class="stat-number" data-count="350">0</span>
+          <div class="stat-label small-caps">Livres Partagés</div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- PARTENAIRES -->
+  <section id="partenaires" class="section" style="background: var(--bg-dark);">
+    <div class="container">
+      <h2 class="reveal" style="color: var(--bronze-light); text-align: center; margin-bottom: 3rem;">Nos Partenaires</h2>
+      
+      <div class="partners-grid reveal">
+        <div class="partner-logo">Partenaire 1</div>
+        <div class="partner-logo">Partenaire 2</div>
+        <div class="partner-logo">Partenaire 3</div>
+        <div class="partner-logo">Partenaire 4</div>
+        <div class="partner-logo">Partenaire 5</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- REJOINDRE (CTA) -->
+  <section id="rejoindre" class="section" style="background: var(--bg-dark);">
+    <div class="container">
+      <div class="cta-section reveal">
+        <h2>Rejoindre GDE</h2>
+        <p>
+          Prêt·e à développer votre art oratoire, à enrichir votre esprit critique et à rejoindre une communauté intellectuelle stimulante ? Que vous soyez novice ou orateur·rice confirmé·e, GDE vous accueille à bras ouverts.
+        </p>
+        <div class="cta-buttons">
+          <a href="sign_up.html" class="btn btn-primary">S'inscrire</a>
+          <a href="contact.html" class="btn btn-secondary">Nous Contacter</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- FAQ -->
+  <section id="faq" class="section" style="background: linear-gradient(180deg, var(--bg-dark) 0%, var(--panel) 100%);">
+    <div class="container">
+      <h2 class="reveal" style="color: var(--bronze-light); text-align: center; margin-bottom: 3rem;">Questions Fréquentes</h2>
+      
+      <div class="faq-list">
+        
+        <div class="faq-item reveal">
+          <button class="faq-question" aria-expanded="false">
+            <span>Comment adhérer à GDE ?</span>
+            <svg class="faq-icon" aria-hidden="true"><use href="#icon-chevron"/></svg>
+          </button>
+          <div class="faq-answer">
+            <p>
+              L'adhésion se fait en ligne via notre formulaire d'inscription. Une fois votre candidature validée, vous serez invité·e à participer à une séance de bienvenue où nous présenterons le fonctionnement du club, les formats de débats et les événements à venir. L'adhésion est ouverte toute l'année.
+            </p>
+          </div>
+        </div>
+
+        <div class="faq-item reveal">
+          <button class="faq-question" aria-expanded="false">
+            <span>Quel est le rythme des rencontres ?</span>
+            <svg class="faq-icon" aria-hidden="true"><use href="#icon-chevron"/></svg>
+          </button>
+          <div class="faq-answer">
+            <p>
+              Nous organisons en moyenne deux activités par semaine : un débat ou une table ronde le jeudi soir, et un atelier pratique le samedi après-midi. Des événements exceptionnels (conférences, tournois) ponctuent le calendrier académique. Vous êtes libre de participer selon vos disponibilités et vos intérêts.
+            </p>
+          </div>
+        </div>
+
+        <div class="faq-item reveal">
+          <button class="faq-question" aria-expanded="false">
+            <span>Faut-il avoir un niveau élevé en éloquence pour rejoindre GDE ?</span>
+            <svg class="faq-icon" aria-hidden="true"><use href="#icon-chevron"/></svg>
+          </button>
+          <div class="faq-answer">
+            <p>
+              Absolument pas ! GDE accueille tous les niveaux, du débutant complet au débatteur expérimenté. Nos ateliers sont conçus pour accompagner chacun·e dans sa progression. L'important est votre envie d'apprendre, de vous exprimer et de vous améliorer. Nous formons, pas sélectionnons.
+            </p>
+          </div>
+        </div>
+
+        <div class="faq-item reveal">
+          <button class="faq-question" aria-expanded="false">
+            <span>Comment proposer un sujet de débat ou de table ronde ?</span>
+            <svg class="faq-icon" aria-hidden="true"><use href="#icon-chevron"/></svg>
+          </button>
+          <div class="faq-answer">
+            <p>
+              Chaque membre peut proposer des thèmes via notre formulaire de suggestions en ligne ou directement lors de nos réunions de bureau. Nous sélectionnons les sujets en fonction de leur pertinence, de leur actualité et de l'intérêt manifesté par la communauté. Votre voix compte dans la programmation du club.
+            </p>
+          </div>
+        </div>
+
+        <div class="faq-item reveal">
+          <button class="faq-question" aria-expanded="false">
+            <span>Comment emprunter un livre de la BiblioENSAMR ?</span>
+            <svg class="faq-icon" aria-hidden="true"><use href="#icon-chevron"/></svg>
+          </button>
+          <div class="faq-answer">
+            <p>
+              La BiblioENSAMR est notre bibliothèque collaborative accessible aux membres actifs. Vous pouvez consulter le catalogue en ligne, réserver un ouvrage et le retirer lors d'une permanence (les jeudis et samedis). Chaque emprunt est limité à deux semaines, renouvelable une fois. Les ouvrages couvrent rhétorique, philosophie, littérature et sciences sociales.
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-baseline">SPEAK • WRITE • REVOLUTIONIZE</div>
+        
+        <ul class="footer-links small-caps">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="join.html">Join</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="#">BiblioENSAMR</a></li>
+          <li><a href="#">GDE Newspaper</a></li>
+        </ul>
+
+        <div class="footer-copy">
+          © 2025 Great Debaters ENSAM Rabat. Tous droits réservés.
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // ========================================
+    // MOBILE MENU TOGGLE
+    // ========================================
+    const menuToggle = document.querySelector('.menu-toggle');
+    const mastheadNav = document.querySelector('.masthead-nav');
+    
+    menuToggle.addEventListener('click', () => {
+      menuToggle.classList.toggle('active');
+      mastheadNav.classList.toggle('active');
+    });
+
+    // Close menu when clicking on a link
+    document.querySelectorAll('.masthead-nav a').forEach(link => {
+      link.addEventListener('click', () => {
+        menuToggle.classList.remove('active');
+        mastheadNav.classList.remove('active');
+      });
+    });
+
+    // Close menu when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('.masthead-nav') && !e.target.closest('.menu-toggle')) {
+        menuToggle.classList.remove('active');
+        mastheadNav.classList.remove('active');
+      }
+    });
+
+    // ========================================
+    // SCROLLED HEADER
+    // ========================================
+    const masthead = document.querySelector('.masthead');
+    let lastScroll = 0;
+
+    window.addEventListener('scroll', () => {
+      const currentScroll = window.pageYOffset;
+      
+      if (currentScroll > 100) {
+        masthead.classList.add('scrolled');
+      } else {
+        masthead.classList.remove('scrolled');
+      }
+      
+      lastScroll = currentScroll;
+    });
+
+    // ========================================
+    // INTERSECTION OBSERVER (REVEAL ANIMATIONS)
+    // ========================================
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    if (!prefersReducedMotion) {
+      const revealObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('revealed');
+            revealObserver.unobserve(entry.target);
+          }
+        });
+      }, {
+        threshold: 0.1,
+        rootMargin: '0px 0px -80px 0px'
+      });
+
+      document.querySelectorAll('.reveal, .reveal-scale').forEach(el => {
+        revealObserver.observe(el);
+      });
+    } else {
+      document.querySelectorAll('.reveal, .reveal-scale').forEach(el => {
+        el.classList.add('revealed');
+      });
+    }
+
+    // ========================================
+    // FAQ ACCORDION
+    // ========================================
+    document.querySelectorAll('.faq-question').forEach(button => {
+      button.addEventListener('click', () => {
+        const item = button.parentElement;
+        const isOpen = item.classList.contains('open');
+        
+        // Close all
+        document.querySelectorAll('.faq-item').forEach(i => {
+          i.classList.remove('open');
+          i.querySelector('.faq-question').setAttribute('aria-expanded', 'false');
+        });
+
+        // Toggle current
+        if (!isOpen) {
+          item.classList.add('open');
+          button.setAttribute('aria-expanded', 'true');
+        }
+      });
+    });
+
+    // ========================================
+    // COUNTER ANIMATION
+    // ========================================
+    function animateCounter(element, target, duration = 2000) {
+      const start = 0;
+      const increment = target / (duration / 16);
+      let current = start;
+
+      const timer = setInterval(() => {
+        current += increment;
+        if (current >= target) {
+          element.textContent = target;
+          clearInterval(timer);
+        } else {
+          element.textContent = Math.floor(current);
+        }
+      }, 16);
+    }
+
+    if (!prefersReducedMotion) {
+      const counterObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const target = parseInt(entry.target.dataset.count, 10);
+            animateCounter(entry.target, target);
+            counterObserver.unobserve(entry.target);
+          }
+        });
+      }, {
+        threshold: 0.5
+      });
+
+      document.querySelectorAll('.stat-number[data-count]').forEach(el => {
+        counterObserver.observe(el);
+      });
+    } else {
+      document.querySelectorAll('.stat-number[data-count]').forEach(el => {
+        el.textContent = el.dataset.count;
+      });
+    }
+
+    // ========================================
+    // ACTIVE NAV LINK
+    // ========================================
+    const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+    document.querySelectorAll('.masthead-nav a').forEach(link => {
+      if (link.getAttribute('href') === currentPage) {
+        link.classList.add('active');
+      }
+    });
+
+    // ========================================
+    // SMOOTH PARALLAX EFFECT
+    // ========================================
+    if (!prefersReducedMotion) {
+      window.addEventListener('scroll', () => {
+        const scrolled = window.pageYOffset;
+        const heroBg = document.querySelector('.hero-bg img');
+        if (heroBg) {
+          heroBg.style.transform = `translateY(${scrolled * 0.5}px)`;
+        }
+      });
+    }
+  </script>
+
+</body>
+</html>

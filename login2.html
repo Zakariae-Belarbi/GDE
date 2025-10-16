@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Academic Portal - Login</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #0f0e0d;        /* deep black */
+            --panel: #171512;          /* dark graphite brown */
+            --paper: #efe6d2;          /* aged paper */
+            --ink: #eae2d0;            /* text on dark panels */
+            --ink-soft: #c7b99b;       /* secondary text */
+            --bronze: #d6b36d;         /* main gold accent */
+            --bronze-dark: #9c7a34;    /* deeper gold */
+            --stroke: #3a2f23;         /* separators and shadows */
+            --radius: 16px;
+            --shadow: 0 12px 30px rgba(0,0,0,.35);
+            --transition: .35s ease;
+            
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-dark);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--ink);
+            overflow-x: hidden;
+        }
+
+        .main-container {
+            width: 90%;
+            max-width: 900px;
+            background: var(--panel);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            border: 2px solid var(--bronze);
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(135deg, var(--panel) 0%, rgba(23, 21, 18, 0.95) 100%);
+        }
+/* Desktop: container height adapts to the current view */
+@media (min-width: 769px) {
+  .main-container {
+    /* default desktop height is a bit shorter for Sign In */
+    --container-h: 520px;
+    height: var(--container-h);
+    transition: height var(--transition);
+  }
+  .main-container.is-signin { --container-h: 520px; } /* shorter */
+  .main-container.is-signup { --container-h: 600px; } /* your original */
+}
+
+        .main-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: var(--radius);
+            padding: 2px;
+            background: linear-gradient(45deg, var(--bronze), var(--bronze-dark), var(--bronze));
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask-composite: exclude;
+            animation: borderGlow 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes borderGlow {
+            0% { filter: brightness(1); }
+            100% { filter: brightness(1.3) drop-shadow(0 0 10px var(--bronze)); }
+        }
+
+        .container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+        }
+
+        .welcome-panel {
+            flex: 1;
+            background: linear-gradient(135deg, var(--paper) 0%, rgba(239, 230, 210, 0.95) 100%);
+            clip-path: polygon(0 0, 70% 0, 80% 100%, 0 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 60px 100px 60px 60px;
+            position: relative;
+        }
+
+        .welcome-panel::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23d6b36d' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E") repeat;
+            opacity: 0.3;
+        }
+
+        .welcome-title {
+            font-family: 'Cinzel', serif;
+            font-size: 2.8rem;
+            font-weight: 600;
+            color: var(--bronze-dark);
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            position: relative;
+            z-index: 2;
+        }
+
+        .welcome-subtitle {
+            font-size: 1.1rem;
+            color: var(--ink-soft);
+            line-height: 1.6;
+            margin-bottom: 30px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .academy-logo {
+            width: 80px;
+            height: 80px;
+            border: 3px solid var(--bronze);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: radial-gradient(circle, var(--bronze) 0%, var(--bronze-dark) 100%);
+            position: relative;
+            z-index: 2;
+            box-shadow: 0 6px 20px rgba(214, 179, 109, 0.3);
+        }
+
+        .academy-logo::after {
+            content: '𝒜';
+            font-family: 'Cinzel', serif;
+            font-size: 2.5rem;
+            color: var(--paper);
+            font-weight: 600;
+        }
+
+        .form-section {
+            flex: 1;
+            position: relative;
+            padding: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .form-box {
+            position: absolute;
+            width: 100%;
+            max-width: 400px;
+            transition: var(--transition);
+            transform-style: preserve-3d;
+        }
+
+        .form-box.Login {
+            transform: translateX(0%);
+            opacity: 1;
+            filter: blur(0);
+        }
+
+        .form-box.Register {
+            transform: translateX(120%);
+            opacity: 0;
+            filter: blur(10px);
+        }
+
+        .container.active .form-box.Login {
+            transform: translateX(-120%);
+            opacity: 0;
+            filter: blur(10px);
+        }
+
+        .container.active .form-box.Register {
+            transform: translateX(0%);
+            opacity: 1;
+            filter: blur(0);
+        }
+
+        .form-title {
+            font-family: 'Cinzel', serif;
+            font-size: 2.2rem;
+            font-weight: 500;
+            color: var(--bronze);
+            margin-bottom: 30px;
+            text-align: center;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        .form-group.half {
+            width: 48%;
+            display: inline-block;
+        }
+
+        .form-group.half:first-child {
+            margin-right: 4%;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 15px 0 10px 0;
+            background: transparent;
+            border: none;
+            border-bottom: 1px solid var(--stroke);
+            color: var(--ink);
+            font-size: 1rem;
+            font-family: 'Inter', sans-serif;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .form-input:focus {
+            border-bottom-color: var(--bronze);
+            box-shadow: 0 2px 8px rgba(214, 179, 109, 0.2);
+        }
+
+        .form-input::placeholder {
+            color: var(--ink-soft);
+        }
+
+        select.form-input {
+            cursor: pointer;
+        }
+
+        select.form-input option {
+            background: var(--panel);
+            color: var(--ink);
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(90deg, var(--bronze-dark), var(--bronze));
+            border: none;
+            border-radius: var(--radius);
+            color: var(--paper);
+            font-size: 1.1rem;
+            font-weight: 500;
+            font-family: 'Inter', sans-serif;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: inset 0 2px 4px rgba(255,255,255,0.1), 0 4px 12px rgba(214, 179, 109, 0.2);
+            margin: 20px 0;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: inset 0 2px 4px rgba(255,255,255,0.2), 0 8px 20px rgba(214, 179, 109, 0.4);
+            filter: brightness(1.1);
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+            box-shadow: inset 0 4px 8px rgba(0,0,0,0.2), 0 2px 8px rgba(214, 179, 109, 0.3);
+        }
+
+        .toggle-text {
+            text-align: center;
+            color: var(--ink-soft);
+            font-size: 0.95rem;
+        }
+
+        .toggle {
+            color: var(--bronze);
+            cursor: pointer;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .toggle:hover {
+            color: var(--paper);
+            text-shadow: 0 0 8px var(--bronze);
+        }
+
+        .toggle::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 1px;
+            bottom: -2px;
+            left: 50%;
+            background: var(--bronze);
+            transition: all 0.3s ease;
+        }
+
+        .toggle:hover::after {
+            width: 100%;
+            left: 0;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .main-container {
+                height: auto;
+                min-height: 600px;
+                flex-direction: column;
+                width: 95%;
+            }
+
+            .container {
+                flex-direction: column;
+            }
+
+            .welcome-panel {
+                clip-path: none;
+                padding: 28px 22px;
+                align-items: center;
+                text-align: center; 
+                min-height: 0;
+                }
+
+            .welcome-title {
+                font-size: 2rem;
+                margin-bottom: 10px;
+            }
+
+            .welcome-subtitle {
+                font-size: 1rem;
+                margin-bottom: 20px;
+            }
+
+            .academy-logo {
+                width: 60px;
+                height: 60px;
+            }
+
+            .academy-logo::after {
+                font-size: 2rem;
+            }
+
+            .form-section {
+                padding: 40px 30px;
+                min-height: 400px;
+                .form-section form { gap: 14px; display: grid; }
+
+            }
+
+            .form-title {
+                font-size: 1.8rem;
+            }
+
+            .form-group.half {
+                width: 100%;
+                display: block;
+                
+            }
+
+            .form-group.half:first-child {
+                margin-right: 0;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .main-container {
+                width: 98%;
+                margin: 10px;
+            }
+
+            .form-section {
+                padding: 30px 20px;
+            }
+
+            .welcome-title {
+                font-size: 1.6rem;
+            }
+
+            .form-title {
+                font-size: 1.5rem;
+            }
+        }
+        /* ---------- MOBILE ONLY: stack + slide, hauteur qui s'adapte ---------- */
+@media (max-width: 768px) {
+  .container {
+    display: grid;
+    grid-template-rows: auto minmax(0, 1fr);
+  }
+
+  .welcome-panel {
+    clip-path: none;
+    padding: 24px 20px;
+    text-align: center;
+    align-items: center;
+    min-block-size: clamp(140px, 26vh, 240px);
+  }
+
+  .form-section {
+    position: relative;              /* nécessaire pour les enfants en absolute */
+    padding: 20px 16px 28px;
+    overflow: hidden;                /* évite scrolls pendant le slide */
+  }
+
+  .form-box {
+    width: min(100%, 420px);
+    margin-inline: auto;
+    transition: transform var(--transition), opacity var(--transition), filter var(--transition);
+    will-change: transform, opacity;
+  }
+
+  /* Par défaut: Sign In visible => en flux (relative), Sign Up hors flux (absolute) */
+  .form-box.Login    { position: relative; }
+  .form-box.Register { position: absolute; left: 0; right: 0; }
+
+  /* Pendant l'état actif (Sign Up visible) on inverse les rôles */
+  .container.active .form-box.Login    { position: absolute; left: 0; right: 0; }
+  .container.active .form-box.Register { position: relative; }
+
+  /* Optionnel: bloquer l'interaction sur le panneau caché */
+  .form-box.Register { pointer-events: none; }
+  .container.active .form-box.Login { pointer-events: none; }
+  .container.active .form-box.Register { pointer-events: auto; }
+  .form-title { margin-bottom: 18px; text-align: center; }
+  .form-group { margin-bottom: 16px; }
+}
+
+
+    </style>
+</head>
+<body>
+    <div class="main-container" id="sign_in">
+        <div class="container">
+            <div class="welcome-panel">
+                <div class="academy-logo"></div>
+                <h1 class="welcome-title">Welcome</h1>
+                <p class="welcome-subtitle">Access your academic portal with classical elegance. Join our distinguished community of scholars.</p>
+            </div>
+            
+            <div class="form-section">
+                <!-- Login Form -->
+                <div  id="loginform" class="form-box Login">
+                    <h2 class="form-title">Sign In</h2>
+                    <form>
+                        <div class="form-group">
+                            <input type="email" class="form-input" placeholder="Student Email" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="password" class="form-input" placeholder="Password" required>
+                        </div>
+                        <button type="submit" class="submit-btn">Log In</button>
+                        <div class="toggle-text">
+                            Don't have an account? <a href="#" class="toggle signup">Sign Up</a>
+                            <p>Back home <a href="index.html" class="toggle signup">Clique here</a></p>
+
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Register Form -->
+                <div id="Registerform" class="form-box Register" >
+                    <h2 class="form-title">Sign Up</h2>
+                    <form>
+                        <div class="form-group half">
+                            <input type="text" class="form-input" placeholder="First Name" required>
+                        </div>
+                        <div class="form-group half">
+                            <input type="text" class="form-input" placeholder="Last Name" required>
+                        </div>
+                        <div class="form-group">
+                            <select class="form-input" required>
+                                <option value="" disabled selected>Select Your Class</option>
+                                <option value="freshman">Freshman</option>
+                                <option value="sophomore">Sophomore</option>
+                                <option value="junior">Junior</option>
+                                <option value="senior">Senior</option>
+                                <option value="graduate">Graduate</option>
+                                <option value="doctoral">Doctoral</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" class="form-input" placeholder="Student Email" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="password" class="form-input" placeholder="Password" required>
+                        </div>
+                        <button type="submit" class="submit-btn">Create Account</button>
+                        <div class="toggle-text">
+                            Already registered? <a href="#" class="toggle signin">Sign In</a>
+                            <p>Back home <a href="index.html" class="toggle signup">Clique here</a></p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="auth-ui.js" defer></script>
+    <script>
+        const container = document.querySelector('.container');
+        const mainContainer = document.querySelector('.main-container');
+        const signupToggle = document.querySelector('.toggle.signup');
+        const signinToggle = document.querySelector('.toggle.signin');
+
+        signupToggle.onclick = (e) => {
+            e.preventDefault();
+            container.classList.add('active');
+        };
+
+        signinToggle.onclick = (e) => {
+            e.preventDefault();
+            container.classList.remove('active');
+        };
+        function setMode(mode) {
+    // mode = 'signin' | 'signup'
+    mainContainer.classList.toggle('is-signin', mode === 'signin');
+    mainContainer.classList.toggle('is-signup', mode === 'signup');
+  }
+
+  // Initial state: Sign In
+  setMode('signin');
+
+  signupToggle.onclick = (e) => {
+    e.preventDefault();
+    container.classList.add('active');
+    setMode('signup');
+  };
+
+  signinToggle.onclick = (e) => {
+    e.preventDefault();
+    container.classList.remove('active');
+    setMode('signin');
+  };
+        // Add subtle interaction effects
+        document.querySelectorAll('.form-input').forEach(input => {
+            input.addEventListener('focus', function() {
+                this.parentElement.style.transform = 'scale(1.02)';
+            });
+            
+            input.addEventListener('blur', function() {
+                this.parentElement.style.transform = 'scale(1)';
+            });
+        });
+
+        // Form submission handlers (prevent actual submission for demo)
+        document.querySelectorAll('form').forEach(form => {
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const btn = this.querySelector('.submit-btn');
+                const originalText = btn.textContent;
+                
+                btn.textContent = 'Processing...';
+                btn.style.background = 'linear-gradient(90deg, var(--stroke), var(--ink-soft))';
+                
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                    btn.style.background = 'linear-gradient(90deg, var(--bronze-dark), var(--bronze))';
+                }, 2000);
+            });
+        });
+        function applyHashMode() {
+    const hash = window.location.hash;
+    if (hash === '#registerform') {
+      // Forcer l'état Sign Up
+      container.classList.add('active');
+      setMode('signup');
+      // Optionnel: focus premier champ du signup
+      const first = document.querySelector('#registerform input, #registerform select');
+      if (first) first.focus({preventScroll:true});
+      // Assure l’ancre: 
+      document.getElementById('registerform')?.scrollIntoView({behavior:'smooth', block:'center'});
+    } else if (hash === '#loginform' || hash === '#signin') {
+      // Forcer l'état Sign In (utile si tu veux un lien direct)
+      container.classList.remove('active');
+      setMode('signin');
+      const first = document.querySelector('#loginform input');
+      if (first) first.focus({preventScroll:true});
+      document.getElementById('loginform')?.scrollIntoView({behavior:'smooth', block:'center'});
+    }
+  }
+
+  // Appliquer au chargement de la page
+  applyHashMode();
+
+  // Réagir si l’ancre change (navigation interne)
+  window.addEventListener('hashchange', applyHashMode);
+    </script>
+</body>
+</html>
